@@ -45,6 +45,8 @@ function App({offersCount}: AppProps): JSX.Element {
         </Routes>
       </BrowserRouter>
     </HelmetProvider>
+
+
   );
 }
 export default App;

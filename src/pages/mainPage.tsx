@@ -1,5 +1,4 @@
 import {Helmet} from 'react-helmet-async';
-import Card from '../components/card';
 
 type MainPageProps = {
   offersCount: number;
