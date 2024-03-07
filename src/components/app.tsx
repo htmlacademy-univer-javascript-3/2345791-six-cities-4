@@ -9,7 +9,7 @@ import NotFoundScreen from '../pages/notFound';
 import PrivateRoute from './privateRoute';
 
 type AppProps = {
-  offersCount: number
+  offersCount: number;
 }
 function App({offersCount}: AppProps): JSX.Element {
   return (
@@ -27,11 +27,11 @@ function App({offersCount}: AppProps): JSX.Element {
           <Route
             path={AppRoute.Favorites}
             element = {
-            <PrivateRoute
-              authorizationStatus={AuthorizationStatus.NoAuth}
-            >
-              <FavoritesPage/>
-            </PrivateRoute>
+              <PrivateRoute
+                authorizationStatus={AuthorizationStatus.NoAuth}
+              >
+                <FavoritesPage/>
+              </PrivateRoute>
             }
           />
           <Route
