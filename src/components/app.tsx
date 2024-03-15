@@ -7,18 +7,22 @@ import FavoritesPage from '../pages/favoritesPage';
 import OfferPage from '../pages/offerPage';
 import NotFoundScreen from '../pages/notFound';
 import PrivateRoute from './privateRoute';
+import { offers } from '../mocks/offers';
+import { Offer } from '../types/offer';
+import React from 'react';
 
 type AppProps = {
   offersCount: number;
 }
 function App({offersCount}: AppProps): JSX.Element {
+  const [choosenOffer, setChoosenOffer] = React.useState(offers[0]);
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route
             path={AppRoute.Root}
-            element = {<MainPage offersCount={offersCount}/>}
+            element = {<MainPage offersCount={offersCount} offers={offers}/>}
           />
           <Route
             path={AppRoute.Login}
@@ -30,13 +34,13 @@ function App({offersCount}: AppProps): JSX.Element {
               <PrivateRoute
                 authorizationStatus={AuthorizationStatus.NoAuth}
               >
-                <FavoritesPage/>
+                <FavoritesPage offers={offers}/>
               </PrivateRoute>
             }
           />
           <Route
-            path={AppRoute.Offer}
-            element = {<OfferPage/>}
+            path={`${AppRoute.Offer}/:offerId`}
+            element = {<OfferPage offer={choosenOffer}/>}
           />
           <Route
             path="*"

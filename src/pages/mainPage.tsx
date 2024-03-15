@@ -1,11 +1,15 @@
 import {Helmet} from 'react-helmet-async';
-import Card from '../components/card';
+import { Offer } from '../types/offer';
+import OfferList from '../components/offerList';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../const';
 
 type MainPageProps = {
   offersCount: number;
+  offers: Offer[];
 }
 
-function MainPage({offersCount}: MainPageProps): JSX.Element {
+function MainPage({offersCount, offers}: MainPageProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -22,17 +26,17 @@ function MainPage({offersCount}: MainPageProps): JSX.Element {
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
+                  <Link to={AppRoute.Favorites}>
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
                     <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
                     <span className="header__favorite-count">3</span>
-                  </a>
+                  </Link>
                 </li>
                 <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
+                  <Link to={AppRoute.Login}>
                     <span className="header__signout">Sign out</span>
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </nav>
@@ -98,13 +102,7 @@ function MainPage({offersCount}: MainPageProps): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                <Card/>
-                <Card/>
-                <Card/>
-                <Card/>
-                <Card/>
-              </div>
+              <OfferList offers={offers}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map" />

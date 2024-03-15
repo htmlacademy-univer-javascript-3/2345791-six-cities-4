@@ -1,18 +1,26 @@
-function Card(): JSX.Element {
+import { Link } from 'react-router-dom';
+import { Offer } from '../types/offer';
+import { AppRoute } from '../const';
+
+type CardProps = {
+  offer:Offer;
+}
+
+function Card({offer}: CardProps): JSX.Element {
   return (
     <article className="cities__card place-card">
       <div className="place-card__mark">
-        <span>Premium</span>
+        <span>{offer.isPremium ? 'Premium' : 'Not premium'}</span>
       </div>
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#">
-          <img className="place-card__image" src="img/apartment-01.jpg" width={260} height={200} alt="Place image" />
+          <img className="place-card__image" src={offer.image.src} width={260} height={200} alt={offer.image.src} />
         </a>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">€120</b>
+            <b className="place-card__price-value">€{offer.price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
           <button className="place-card__bookmark-button button" type="button">
@@ -29,9 +37,9 @@ function Card(): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">Beautiful &amp; luxurious apartment at great location</a>
+          <Link to={`${AppRoute.Offer}/${offer.id}`}>{offer.name}</Link>
         </h2>
-        <p className="place-card__type">Apartment</p>
+        <p className="place-card__type">{offer.type}</p>
       </div>
     </article>
   );
