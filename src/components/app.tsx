@@ -8,7 +8,6 @@ import OfferPage from '../pages/offerPage';
 import NotFoundScreen from '../pages/notFound';
 import PrivateRoute from './privateRoute';
 import { offers } from '../mocks/offers';
-import { Offer } from '../types/offer';
 import React from 'react';
 
 type AppProps = {
@@ -32,7 +31,7 @@ function App({offersCount}: AppProps): JSX.Element {
             path={AppRoute.Favorites}
             element = {
               <PrivateRoute
-                authorizationStatus={AuthorizationStatus.NoAuth}
+                authorizationStatus={AuthorizationStatus.Auth}
               >
                 <FavoritesPage offers={offers}/>
               </PrivateRoute>
