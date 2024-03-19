@@ -1,10 +1,10 @@
-import { Review } from '../types/review';
+import { TReview } from '../types/review';
 
 type ReviewProps = {
-  review:Review;
+  review:TReview;
 }
 
-function ReviewComponent({review}: ReviewProps): JSX.Element {
+function Review({review}: ReviewProps): JSX.Element {
   return (
     <li className="reviews__item">
       <div className="reviews__user user">
@@ -30,4 +30,4 @@ function ReviewComponent({review}: ReviewProps): JSX.Element {
     </li>
   );
 }
-export default ReviewComponent;
+export default Review;

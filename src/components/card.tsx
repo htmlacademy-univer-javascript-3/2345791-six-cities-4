@@ -10,7 +10,7 @@ function Card({offer}: CardProps): JSX.Element {
   return (
     <article className="cities__card place-card">
       <div className="place-card__mark">
-        <span>{offer.isPremium ? 'Premium' : 'Not premium'}</span>
+        <span>{offer.isPremium ? 'Premium' : null}</span>
       </div>
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#">

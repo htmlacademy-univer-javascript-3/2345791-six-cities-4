@@ -1,6 +1,6 @@
 import {Image} from '../types/image';
 
-export type Review = {
+export type TReview = {
   id: number;
   author: string;
   avatar: Image;

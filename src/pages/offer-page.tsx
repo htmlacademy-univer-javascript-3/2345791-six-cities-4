@@ -1,7 +1,7 @@
 import {Helmet} from 'react-helmet-async';
-import CommentForm from '../components/commentForm';
+import CommentForm from '../components/comment-form';
 import { Offer } from '../types/offer';
-import ReviewComponent from '../components/review';
+import Review from '../components/review';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../const';
 
@@ -163,7 +163,7 @@ function OfferPage({offer}: OfferPageProps): JSX.Element {
                 <h2 className="reviews__title">Reviews · <span className="reviews__amount">1</span></h2>
                 <ul className="reviews__list">
                   {offer.reviews.map((review) => (
-                    <ReviewComponent key={offer.id + review.id} review={review}/>
+                    <Review key={offer.id + review.id} review={review}/>
                   ))}
                 </ul>
                 <CommentForm/>

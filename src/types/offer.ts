@@ -1,7 +1,7 @@
 
 import { OfferType } from '../const';
 import {Image} from '../types/image';
-import {Review} from '../types/review';
+import {TReview} from '../types/review';
 
 export type Offer = {
   id: number;
@@ -12,6 +12,6 @@ export type Offer = {
   type: OfferType;
   isFavorite: boolean;
   rating: number;
-  reviews: Review [];
+  reviews: TReview [];
   isPremium: boolean;
 };
