@@ -1,5 +1,5 @@
+import {Point} from '../types/point';
+
 export type City = {
   title: string;
-  lat: number;
-  lng: number;
-};
+} & Point;
