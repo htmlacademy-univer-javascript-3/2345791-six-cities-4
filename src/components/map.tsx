@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 import {Marker, layerGroup} from 'leaflet';
-import useMap from "../use-map";
-import {City} from '../types/city'
-import {Point} from '../types/point'
-import 'leaflet/dist/leaflet.css'
+import useMap from '../use-map';
+import {City} from '../types/city';
+import {Point} from '../types/point';
+import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
   city: City;
@@ -25,7 +25,7 @@ function Map(props: MapProps): JSX.Element {
           lat: point.lat,
           lng: point.lng
         });
-        marker.addTo(markerLayer)
+        marker.addTo(markerLayer);
       });
 
       return () => {

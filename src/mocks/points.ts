@@ -1,4 +1,4 @@
-import {Point} from '../types/point'
+import {Point} from '../types/point';
 
 export const points: Point[] = [
   {
@@ -21,4 +21,4 @@ export const points: Point[] = [
     lat: 52.3809553943508,
     lng: 4.939309666406198
   },
-]
+];
