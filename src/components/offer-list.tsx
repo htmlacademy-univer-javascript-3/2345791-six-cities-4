@@ -3,13 +3,14 @@ import Card from './card';
 
 type OfferListProps = {
   offers: Offer[];
+  isNearPlaces: boolean;
 };
 
-function OfferList({offers}: OfferListProps): JSX.Element {
+function OfferList({offers, isNearPlaces}: OfferListProps): JSX.Element {
   return (
-    <div className="cities__places-list places__list tabs__content">
+    <div className={(isNearPlaces) ? 'near-places__list places__list' : 'cities__places-list places__list tabs__content'}>
       {offers.map((offer) => (
-        <Card key={offer.id} offer={offer}/>
+        <Card key={offer.id} offer={offer} isNearCard={isNearPlaces}/>
       ))}
     </div>
   );

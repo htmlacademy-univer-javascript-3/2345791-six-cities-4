@@ -4,11 +4,12 @@ import { AppRoute } from '../const';
 
 type CardProps = {
   offer:Offer;
+  isNearCard: boolean;
 }
 
-function Card({offer}: CardProps): JSX.Element {
+function Card({offer, isNearCard}: CardProps): JSX.Element {
   return (
-    <article className="cities__card place-card">
+    <article className={(isNearCard) ? 'near-places__card place-card' : 'cities__card place-card'}>
       <div className="place-card__mark">
         <span>{offer.isPremium ? 'Premium' : null}</span>
       </div>
