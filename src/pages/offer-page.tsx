@@ -89,10 +89,10 @@ function OfferPage({offer}: OfferPageProps): JSX.Element {
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{width: '80%'}} />
+                  <span style={{width: `${offer.rating * 20}%`}} />
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="offer__rating-value rating__value">{offer.rating}</span>
+                <span className="offer__rating-value rating__value">Rating</span>
               </div>
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">
@@ -163,7 +163,7 @@ function OfferPage({offer}: OfferPageProps): JSX.Element {
                   </p>
                 </div>
               </div>
-              <ReviewList offerId={offer.id} reviews={offer.reviews} ></ReviewList>
+              <ReviewList reviews={offer.reviews} ></ReviewList>
             </div>
           </div>
           <section className="offer__map map" />
