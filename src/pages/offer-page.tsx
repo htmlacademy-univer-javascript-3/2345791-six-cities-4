@@ -73,9 +73,10 @@ function OfferPage({offer}: OfferPageProps): JSX.Element {
           </div>
           <div className="offer__container container">
             <div className="offer__wrapper">
-              <div className="offer__mark">
-                <span>{offer.isPremium ? 'Premium' : 'Not premium'}</span>
-              </div>
+              {offer.isPremium ?
+                <div className="offer__mark">
+                  <span>Premium</span>
+                </div> : null}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
                   {offer.name}
@@ -92,7 +93,7 @@ function OfferPage({offer}: OfferPageProps): JSX.Element {
                   <span style={{width: `${offer.rating * 20}%`}} />
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="offer__rating-value rating__value">Rating</span>
+                <span className="offer__rating-value rating__value">{offer.rating}</span>
               </div>
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">
@@ -166,8 +167,9 @@ function OfferPage({offer}: OfferPageProps): JSX.Element {
               <ReviewList reviews={offer.reviews} ></ReviewList>
             </div>
           </div>
-          <section className="offer__map map" />
-          <Map points={points} city={amsterdam} selectedPoint={undefined}/>
+          <section className="offer__map map" >
+            <Map points={points} city={amsterdam} selectedPoint={undefined}/>
+          </section>
         </section>
         <div className="container">
           <section className="near-places places">
@@ -177,7 +179,6 @@ function OfferPage({offer}: OfferPageProps): JSX.Element {
         </div>
       </main>
     </div>
-
   );
 }
 export default OfferPage;

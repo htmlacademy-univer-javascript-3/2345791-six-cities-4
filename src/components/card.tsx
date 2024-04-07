@@ -10,9 +10,10 @@ type CardProps = {
 function Card({offer, isNearCard}: CardProps): JSX.Element {
   return (
     <article className={(isNearCard) ? 'near-places__card place-card' : 'cities__card place-card'}>
-      <div className="place-card__mark">
-        <span>{offer.isPremium ? 'Premium' : null}</span>
-      </div>
+      {offer.isPremium ?
+        <div className="place-card__mark">
+          <span> Premium </span>
+        </div> : null}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#">
           <img className="place-card__image" src={offer.image.src} width={260} height={200} alt={offer.image.src} />
@@ -33,7 +34,7 @@ function Card({offer, isNearCard}: CardProps): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: '80%'}} />
+            <span style={{width: `${offer.rating * 20}%`}} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
