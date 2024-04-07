@@ -2,7 +2,7 @@ import {Helmet} from 'react-helmet-async';
 import { Offer } from '../types/offer';
 import OfferList from '../components/offer-list';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../const';
+import { AppRoute, cardType } from '../const';
 import Map from '../components/map';
 import {points} from '../mocks/points';
 import { amsterdam } from '../mocks/amsterdam';
@@ -105,7 +105,7 @@ function MainPage({offersCount, offers}: MainPageProps): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OfferList offers={offers} isNearPlaces={false}/>
+              <OfferList offers={offers} type={cardType.Main}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map" >

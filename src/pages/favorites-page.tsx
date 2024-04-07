@@ -1,8 +1,8 @@
 import {Helmet} from 'react-helmet-async';
 import { Offer } from '../types/offer';
-import Card from '../components/card';
-import { AppRoute } from '../const';
+import { AppRoute, cardType } from '../const';
 import { Link } from 'react-router-dom';
+import OfferList from '../components/offer-list';
 
 type FavoritesPageProps = {
   offers: Offer[];
@@ -55,11 +55,7 @@ function FavoritesPage({offers}: FavoritesPageProps): JSX.Element {
                     </a>
                   </div>
                 </div>
-                <div className="favorites__places">
-                  {offers.map((offer) => (
-                    <Card key={offer.id} offer={offer} isNearCard={false}/>
-                  ))}
-                </div>
+                <OfferList offers={offers} type={cardType.Favorite}/>
               </li>
             </ul>
           </section>

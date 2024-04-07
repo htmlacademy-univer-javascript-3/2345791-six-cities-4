@@ -1,7 +1,7 @@
 import {Helmet} from 'react-helmet-async';
 import { Offer } from '../types/offer';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../const';
+import { AppRoute, cardType } from '../const';
 import ReviewList from '../components/review-list';
 import Map from '../components/map';
 import { points } from '../mocks/points';
@@ -174,7 +174,7 @@ function OfferPage({offer}: OfferPageProps): JSX.Element {
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <OfferList offers={offers} isNearPlaces/>
+            <OfferList offers={offers} type={cardType.Near}/>
           </section>
         </div>
       </main>

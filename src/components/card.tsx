@@ -1,25 +1,38 @@
 import { Link } from 'react-router-dom';
 import { Offer } from '../types/offer';
-import { AppRoute } from '../const';
+import { AppRoute, cardType } from '../const';
 
 type CardProps = {
   offer:Offer;
-  isNearCard: boolean;
+  type: cardType;
 }
 
-function Card({offer, isNearCard}: CardProps): JSX.Element {
+function Card({offer, type}: CardProps): JSX.Element {
+  function cardSwitch(param: cardType) {
+    switch(param) {
+      case cardType.Near:
+        return 'near-places__card place-card';
+      case cardType.Main:
+        return 'cities__card place-card';
+      case cardType.Favorite:
+        return 'favorites__card place-card';
+      default:
+        return undefined;
+    }
+  }
   return (
-    <article className={(isNearCard) ? 'near-places__card place-card' : 'cities__card place-card'}>
+    <article className= {cardSwitch(type)}>
       {offer.isPremium ?
         <div className="place-card__mark">
           <span> Premium </span>
         </div> : null}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={(type === cardType.Favorite) ? 'favorites__image-wrapper place-card__image-wrapper' : 'cities__image-wrapper place-card__image-wrapper'}>
         <a href="#">
-          <img className="place-card__image" src={offer.image.src} width={260} height={200} alt={offer.image.src} />
+          <img className="place-card__image" src={offer.image.src} width={(type === cardType.Favorite) ? 150 : 260}
+           height={(type === cardType.Favorite) ? 110 : 200} alt={offer.image.src} />
         </a>
       </div>
-      <div className="place-card__info">
+      <div className={(type === cardType.Favorite) ? 'favorites__card-info place-card__info' : 'place-card__info'}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">€{offer.price}</b>

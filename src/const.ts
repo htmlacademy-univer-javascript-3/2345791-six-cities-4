@@ -21,3 +21,9 @@ export const enum OfferType {
   House = 'house',
   Hotel = 'hotel'
 }
+
+export const enum cardType {
+  Main = 'main',
+  Favorite = 'favorite',
+  Near = 'near'
+}
