@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Offer } from '../types/offer';
-import { AppRoute, cardType } from '../const';
+import { AppRoute, cardType, cardTypeMap } from '../const';
 
 type CardProps = {
   offer:Offer;
@@ -8,20 +8,8 @@ type CardProps = {
 }
 
 function Card({offer, type}: CardProps): JSX.Element {
-  function cardSwitch(param: cardType) {
-    switch(param) {
-      case cardType.Near:
-        return 'near-places__card place-card';
-      case cardType.Main:
-        return 'cities__card place-card';
-      case cardType.Favorite:
-        return 'favorites__card place-card';
-      default:
-        return undefined;
-    }
-  }
   return (
-    <article className= {cardSwitch(type)}>
+    <article className= {cardTypeMap.get(type)}>
       {offer.isPremium ?
         <div className="place-card__mark">
           <span> Premium </span>
