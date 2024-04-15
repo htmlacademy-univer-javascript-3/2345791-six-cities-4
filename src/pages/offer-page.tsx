@@ -1,19 +1,16 @@
 import {Helmet} from 'react-helmet-async';
-import { Offer } from '../types/offer';
 import { Link } from 'react-router-dom';
 import { AppRoute, cardType } from '../const';
 import ReviewList from '../components/review-list';
 import Map from '../components/map';
 import { points } from '../mocks/points';
-import { amsterdam } from '../mocks/amsterdam';
 import OfferList from '../components/offer-list';
 import { offers } from '../mocks/offers';
+import { useAppSelector } from '../hooks';
 
-type OfferPageProps = {
-  offer:Offer;
-}
 
-function OfferPage({offer}: OfferPageProps): JSX.Element {
+function OfferPage(): JSX.Element {
+  const offer = useAppSelector((state) => state.selectedOffer);
   return (
     <div className="page">
       <Helmet>
@@ -168,7 +165,7 @@ function OfferPage({offer}: OfferPageProps): JSX.Element {
             </div>
           </div>
           <section className="offer__map map" >
-            <Map points={points} city={amsterdam} selectedPoint={undefined}/>
+            <Map points={points} selectedPoint={undefined}/>
           </section>
         </section>
         <div className="container">

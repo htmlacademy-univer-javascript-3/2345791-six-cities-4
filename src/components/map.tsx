@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
 import {Marker, layerGroup} from 'leaflet';
 import useMap from '../use-map';
-import {City} from '../types/city';
 import {Point} from '../types/point';
 import 'leaflet/dist/leaflet.css';
+import { useAppSelector } from '../hooks';
 
 type MapProps = {
-  city: City;
   points: Point[];
   selectedPoint?: Point;
 }
 
 function Map(props: MapProps): JSX.Element {
-  const {city, points, selectedPoint} = props;
+  const city = useAppSelector((state) => state.city);
+  const {points, selectedPoint} = props;
 
   const mapRef = React.useRef(null);
   const map = useMap(mapRef, city);
