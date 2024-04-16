@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Offer } from '../types/offer';
 import { AppRoute, cardType, cardTypeMap } from '../const';
+import { useAppDispatch } from '../hooks';
+import { changeSelectedOffer } from '../store/action';
 
 type CardProps = {
   offer:Offer;
@@ -8,6 +10,7 @@ type CardProps = {
 }
 
 function Card({offer, type}: CardProps): JSX.Element {
+  const dispatch = useAppDispatch();
   return (
     <article className= {cardTypeMap.get(type)}>
       {offer.isPremium ?
@@ -40,7 +43,7 @@ function Card({offer, type}: CardProps): JSX.Element {
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
-        <h2 className="place-card__name">
+        <h2 className="place-card__name" onClick={() => dispatch(changeSelectedOffer(offer))}>
           <Link to={`${AppRoute.Offer}/${offer.id}`}>{offer.name}</Link>
         </h2>
         <p className="place-card__type">{offer.type}</p>

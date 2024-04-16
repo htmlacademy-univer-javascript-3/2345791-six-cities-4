@@ -1,6 +1,7 @@
 import {Offer} from '../types/offer';
-import { OfferType } from '../const';
+import { cities, OfferType } from '../const';
 import { reviews } from './reviews';
+import { points } from './points';
 
 export const offers: Offer[] = [
   {
@@ -13,7 +14,9 @@ export const offers: Offer[] = [
     isFavorite: true,
     reviews: [reviews[0], reviews[1]],
     isPremium: false,
-    image: {src:'img/apartment-01.jpg', alt: 'Apartment image'}
+    image: {src:'img/apartment-01.jpg', alt: 'Apartment image'},
+    city: cities[0],
+    point: points[0]
   },
   {
     id: 1,
@@ -25,7 +28,9 @@ export const offers: Offer[] = [
     isFavorite: false,
     reviews: [reviews[2]],
     isPremium: true,
-    image: {src:'img/room.jpg', alt: 'Room image. Very compact.'}
+    image: {src:'img/room.jpg', alt: 'Room image. Very compact.'},
+    city: cities[3],
+    point: points[1]
   },
   {
     id: 2,
@@ -37,7 +42,9 @@ export const offers: Offer[] = [
     isFavorite: true,
     reviews: [],
     isPremium: false,
-    image: {src:'img/apartment-01.jpg', alt: 'House.'}
+    image: {src:'img/apartment-01.jpg', alt: 'House.'},
+    city: cities[1],
+    point: points[2]
   },
   {
     id: 3,
@@ -49,6 +56,8 @@ export const offers: Offer[] = [
     isFavorite: false,
     reviews: [reviews[2]],
     isPremium: true,
-    image: {src:'img/amsterdam.jpg', alt: 'Now, let me tell you why this is the best hotel ever! First of all, it has premium PLASTIC doors! Moreover, it is...'}
+    image: {src:'img/amsterdam.jpg', alt: 'Now, let me tell you why this is the best hotel ever! First of all, it has premium PLASTIC doors! Moreover, it is...'},
+    city: cities[4],
+    point: points[3]
   },
 ];

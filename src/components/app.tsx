@@ -1,4 +1,3 @@
-import React from 'react';
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
 import {HelmetProvider} from 'react-helmet-async';
 import {AppRoute, AuthorizationStatus} from '../const';
@@ -8,49 +7,46 @@ import FavoritesPage from '../pages/favorites-page';
 import OfferPage from '../pages/offer-page';
 import NotFoundScreen from '../pages/not-found-page';
 import PrivateRoute from './private-route';
-import { offers } from '../mocks/offers';
+import { Provider } from 'react-redux';
+import store from '../store';
 
 
-type AppProps = {
-  offersCount: number;
-}
-function App({offersCount}: AppProps): JSX.Element {
-  const [choosenOffer] = React.useState(offers[0]);
+function App(): JSX.Element {
   return (
-    <HelmetProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path={AppRoute.Root}
-            element = {<MainPage offersCount={offersCount} offers={offers}/>}
-          />
-          <Route
-            path={AppRoute.Login}
-            element = {<LoginPage/>}
-          />
-          <Route
-            path={AppRoute.Favorites}
-            element = {
-              <PrivateRoute
-                authorizationStatus={AuthorizationStatus.Auth}
-              >
-                <FavoritesPage offers={offers}/>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path={`${AppRoute.Offer}/:offerId`}
-            element = {<OfferPage offer={choosenOffer}/>}
-          />
-          <Route
-            path="*"
-            element = {<NotFoundScreen/>}
-          />
-        </Routes>
-      </BrowserRouter>
-    </HelmetProvider>
-
-
+    <Provider store={store}>
+      <HelmetProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route
+              path={AppRoute.Root}
+              element = {<MainPage/>}
+            />
+            <Route
+              path={AppRoute.Login}
+              element = {<LoginPage/>}
+            />
+            <Route
+              path={AppRoute.Favorites}
+              element = {
+                <PrivateRoute
+                  authorizationStatus={AuthorizationStatus.Auth}
+                >
+                  <FavoritesPage/>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path={`${AppRoute.Offer}/:offerId`}
+              element = {<OfferPage/>}
+            />
+            <Route
+              path="*"
+              element = {<NotFoundScreen/>}
+            />
+          </Routes>
+        </BrowserRouter>
+      </HelmetProvider>
+    </Provider>
   );
 }
 export default App;
