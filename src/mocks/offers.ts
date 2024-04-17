@@ -29,7 +29,7 @@ export const offers: Offer[] = [
     reviews: [reviews[2]],
     isPremium: true,
     image: {src:'img/room.jpg', alt: 'Room image. Very compact.'},
-    city: cities[3],
+    city: cities[0],
     point: points[1]
   },
   {
@@ -43,7 +43,7 @@ export const offers: Offer[] = [
     reviews: [],
     isPremium: false,
     image: {src:'img/apartment-01.jpg', alt: 'House.'},
-    city: cities[1],
+    city: cities[0],
     point: points[2]
   },
   {
@@ -57,7 +57,7 @@ export const offers: Offer[] = [
     reviews: [reviews[2]],
     isPremium: true,
     image: {src:'img/amsterdam.jpg', alt: 'Now, let me tell you why this is the best hotel ever! First of all, it has premium PLASTIC doors! Moreover, it is...'},
-    city: cities[4],
+    city: cities[0],
     point: points[3]
   },
 ];

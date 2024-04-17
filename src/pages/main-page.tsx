@@ -1,18 +1,35 @@
 import {Helmet} from 'react-helmet-async';
 import OfferList from '../components/offer-list';
 import { Link } from 'react-router-dom';
-import { AppRoute, cardType } from '../const';
+import { AppRoute, cardType, sortTypeEnum } from '../const';
 import Map from '../components/map';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import CityList from '../components/city-list';
 import { changeCity } from '../store/action';
+import SortList from '../components/sort-list';
+import { Offer } from '../types/offer';
 
 function MainPage(): JSX.Element {
+  function sortOffers(offers: Offer[], sortType: sortTypeEnum) {
+    switch(sortType) {
+      case sortTypeEnum.PriceHighToLow:
+        offers.sort((a, b) => b.price - a.price);
+        break;
+      case sortTypeEnum.PriceLowToHigh:
+        offers.sort((a, b) => a.price - b.price);
+        break;
+      case sortTypeEnum.Rating:
+        offers.sort((a, b) => b.rating - a.rating);
+        break;
+    }
+    return offers;
+  }
   const offers = useAppSelector((state) => state.offers);
   const city = useAppSelector((state) => state.city);
-  const filteredOffers = offers.filter((offer) => offer.city === city);
-  const points = filteredOffers.map((offer) => offer.point);
   const dispatch = useAppDispatch();
+  const sortType = useAppSelector((state) => state.sortType);
+  const filteredOffers = sortOffers(offers.filter((offer) => offer.city === city), sortType);
+  const points = filteredOffers.map((offer) => offer.point);
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -59,26 +76,12 @@ function MainPage(): JSX.Element {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{filteredOffers.length} places to stay in {city.title}</b>
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
-                Popular
-                  <svg className="places__sorting-arrow" width={7} height={4}>
-                    <use xlinkHref="#icon-arrow-select" />
-                  </svg>
-                </span>
-                <ul className="places__options places__options--custom places__options--opened">
-                  <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                  <li className="places__option" tabIndex={0}>Price: low to high</li>
-                  <li className="places__option" tabIndex={0}>Price: high to low</li>
-                  <li className="places__option" tabIndex={0}>Top rated first</li>
-                </ul>
-              </form>
+              <SortList/>
               <OfferList offers={filteredOffers} type={cardType.Main}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map" >
-                <Map points={points} selectedPoint={undefined}/>
+                <Map points={points}/>
               </section>
             </div>
           </div>

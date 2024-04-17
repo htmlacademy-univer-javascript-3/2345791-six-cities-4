@@ -12,7 +12,7 @@ type CardProps = {
 function Card({offer, type}: CardProps): JSX.Element {
   const dispatch = useAppDispatch();
   return (
-    <article className= {cardTypeMap.get(type)}>
+    <article className= {cardTypeMap.get(type)} onMouseEnter={() => dispatch(changeSelectedOffer(offer))}>
       {offer.isPremium ?
         <div className="place-card__mark">
           <span> Premium </span>
@@ -43,7 +43,7 @@ function Card({offer, type}: CardProps): JSX.Element {
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
-        <h2 className="place-card__name" onClick={() => dispatch(changeSelectedOffer(offer))}>
+        <h2 className="place-card__name">
           <Link to={`${AppRoute.Offer}/${offer.id}`}>{offer.name}</Link>
         </h2>
         <p className="place-card__type">{offer.type}</p>

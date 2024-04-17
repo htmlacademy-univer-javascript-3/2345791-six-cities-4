@@ -7,13 +7,12 @@ import { useAppSelector } from '../hooks';
 
 type MapProps = {
   points: Point[];
-  selectedPoint?: Point;
 }
 
 function Map(props: MapProps): JSX.Element {
   const city = useAppSelector((state) => state.city);
-  const {points, selectedPoint} = props;
-
+  const {points} = props;
+  const selectedPoint = useAppSelector((state) => state.selectedOffer.point);
   const mapRef = React.useRef(null);
   const map = useMap(mapRef, city);
 
@@ -26,13 +25,17 @@ function Map(props: MapProps): JSX.Element {
           lng: point.lng
         });
         marker.addTo(markerLayer);
+        if (point === selectedPoint) {
+          marker.setOpacity(0.5);
+        }
       });
-
+      map.flyTo([city.lat, city.lng], 10);
       return () => {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, points, selectedPoint]);
+  }, [map, points, selectedPoint, city]);
+
 
   return <div style={{height: '100%'}} ref={mapRef}></div>;
 }
