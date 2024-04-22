@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import {Marker, layerGroup} from 'leaflet';
+import {Marker, layerGroup, icon} from 'leaflet';
 import useMap from '../use-map';
 import {Point} from '../types/point';
 import 'leaflet/dist/leaflet.css';
@@ -15,7 +15,9 @@ function Map(props: MapProps): JSX.Element {
   const selectedPoint = useAppSelector((state) => state.selectedOffer.point);
   const mapRef = React.useRef(null);
   const map = useMap(mapRef, city);
-
+  const activeIcon = icon({
+    iconUrl: '/img/pin-active.svg'
+  });
   useEffect(() => {
     if(map) {
       const markerLayer = layerGroup().addTo(map);
@@ -26,7 +28,7 @@ function Map(props: MapProps): JSX.Element {
         });
         marker.addTo(markerLayer);
         if (point === selectedPoint) {
-          marker.setOpacity(0.5);
+          marker.setIcon(activeIcon);
         }
       });
       map.flyTo([city.lat, city.lng], 10);
@@ -34,7 +36,7 @@ function Map(props: MapProps): JSX.Element {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, points, selectedPoint, city]);
+  }, [map, points, selectedPoint, city, activeIcon]);
 
 
   return <div style={{height: '100%'}} ref={mapRef}></div>;
