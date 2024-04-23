@@ -75,7 +75,7 @@ export const cities: City[] = [
   },
 ];
 
-export const enum sortTypeEnum {
+export const enum SortType {
   Popular = 'Popular',
   PriceLowToHigh = 'Price: low to high',
   PriceHighToLow = 'Price: high to low',

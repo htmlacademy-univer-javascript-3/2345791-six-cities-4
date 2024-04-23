@@ -1,5 +1,5 @@
 import React from 'react';
-import { sortTypeEnum } from '../const';
+import { SortType } from '../const';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { changeSortType } from '../store/action';
 
@@ -24,10 +24,10 @@ function SortList(): JSX.Element {
         </svg>
       </span>
       <ul className={`places__options places__options--custom ${(isSortOpen) ? 'places__options--opened' : ''}`}>
-        <li className={`places__option ${(sortType === sortTypeEnum.Popular) ? 'places__option--active' : ''}`} tabIndex={0} onClick={() => dispatch(changeSortType(sortTypeEnum.Popular))}>Popular</li>
-        <li className={`places__option ${(sortType === sortTypeEnum.PriceLowToHigh) ? 'places__option--active' : ''}`} tabIndex={0} onClick={() => dispatch(changeSortType(sortTypeEnum.PriceLowToHigh))}>Price: low to high</li>
-        <li className={`places__option ${(sortType === sortTypeEnum.PriceHighToLow) ? 'places__option--active' : ''}`} tabIndex={0} onClick={() => dispatch(changeSortType(sortTypeEnum.PriceHighToLow))}>Price: high to low</li>
-        <li className={`places__option ${(sortType === sortTypeEnum.Rating) ? 'places__option--active' : ''}`} tabIndex={0} onClick={() => dispatch(changeSortType(sortTypeEnum.Rating))}>Top rated first</li>
+        <li className={`places__option ${(sortType === SortType.Popular) ? 'places__option--active' : ''}`} tabIndex={0} onClick={() => dispatch(changeSortType(SortType.Popular))}>Popular</li>
+        <li className={`places__option ${(sortType === SortType.PriceLowToHigh) ? 'places__option--active' : ''}`} tabIndex={0} onClick={() => dispatch(changeSortType(SortType.PriceLowToHigh))}>Price: low to high</li>
+        <li className={`places__option ${(sortType === SortType.PriceHighToLow) ? 'places__option--active' : ''}`} tabIndex={0} onClick={() => dispatch(changeSortType(SortType.PriceHighToLow))}>Price: high to low</li>
+        <li className={`places__option ${(sortType === SortType.Rating) ? 'places__option--active' : ''}`} tabIndex={0} onClick={() => dispatch(changeSortType(SortType.Rating))}>Top rated first</li>
       </ul>
     </form>
   );

@@ -1,29 +1,15 @@
 import {Helmet} from 'react-helmet-async';
 import OfferList from '../components/offer-list';
 import { Link } from 'react-router-dom';
-import { AppRoute, cardType, sortTypeEnum } from '../const';
+import { AppRoute, cardType } from '../const';
 import Map from '../components/map';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import CityList from '../components/city-list';
 import { changeCity } from '../store/action';
 import SortList from '../components/sort-list';
-import { Offer } from '../types/offer';
+import { sortOffers } from '../utils';
 
 function MainPage(): JSX.Element {
-  function sortOffers(offers: Offer[], sortType: sortTypeEnum) {
-    switch(sortType) {
-      case sortTypeEnum.PriceHighToLow:
-        offers.sort((a, b) => b.price - a.price);
-        break;
-      case sortTypeEnum.PriceLowToHigh:
-        offers.sort((a, b) => a.price - b.price);
-        break;
-      case sortTypeEnum.Rating:
-        offers.sort((a, b) => b.rating - a.rating);
-        break;
-    }
-    return offers;
-  }
   const offers = useAppSelector((state) => state.offers);
   const city = useAppSelector((state) => state.city);
   const dispatch = useAppDispatch();
