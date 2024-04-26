@@ -1,4 +1,5 @@
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
+import { Provider } from 'react-redux';
 import {HelmetProvider} from 'react-helmet-async';
 import {AppRoute, AuthorizationStatus} from '../const';
 import MainPage from '../pages/main-page';
@@ -7,7 +8,6 @@ import FavoritesPage from '../pages/favorites-page';
 import OfferPage from '../pages/offer-page';
 import NotFoundScreen from '../pages/not-found-page';
 import PrivateRoute from './private-route';
-import { Provider } from 'react-redux';
 import store from '../store';
 
 

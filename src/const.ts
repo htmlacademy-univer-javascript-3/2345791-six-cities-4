@@ -11,7 +11,7 @@ export const enum AppRoute {
   Root = '/'
 }
 
-export enum AuthorizationStatus {
+export const enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
@@ -74,3 +74,10 @@ export const cities: City[] = [
     lng: 6.783333
   },
 ];
+
+export const enum SortType {
+  Popular = 'Popular',
+  PriceLowToHigh = 'Price: low to high',
+  PriceHighToLow = 'Price: high to low',
+  Rating = 'Top rated first'
+}

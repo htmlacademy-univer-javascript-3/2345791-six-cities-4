@@ -165,7 +165,7 @@ function OfferPage(): JSX.Element {
             </div>
           </div>
           <section className="offer__map map" >
-            <Map points={points} selectedPoint={undefined}/>
+            <Map points={points}/>
           </section>
         </section>
         <div className="container">
