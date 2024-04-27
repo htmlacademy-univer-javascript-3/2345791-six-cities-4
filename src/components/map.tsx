@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
 import {Marker, layerGroup, icon} from 'leaflet';
 import useMap from '../use-map';
-import {Point} from '../types/point';
 import 'leaflet/dist/leaflet.css';
 import { useAppSelector } from '../hooks';
+import { Location } from '../types/location';
 
 type MapProps = {
-  points: Point[];
+  points: Location[];
 }
 
 function Map(props: MapProps): JSX.Element {
   const city = useAppSelector((state) => state.city);
   const {points} = props;
-  const selectedPoint = useAppSelector((state) => state.selectedOffer.point);
+  const selectedPoint = useAppSelector((state) => state.selectedOffer?.location);
   const mapRef = React.useRef(null);
   const map = useMap(mapRef, city);
   const activeIcon = icon({
@@ -23,15 +23,15 @@ function Map(props: MapProps): JSX.Element {
       const markerLayer = layerGroup().addTo(map);
       points.forEach((point) => {
         const marker = new Marker({
-          lat: point.lat,
-          lng: point.lng
+          lat: point.latitude,
+          lng: point.longitude
         });
         marker.addTo(markerLayer);
         if (point === selectedPoint) {
           marker.setIcon(activeIcon);
         }
       });
-      map.flyTo([city.lat, city.lng], 10);
+      map.flyTo([city.location.latitude, city.location.longitude], city.location.zoom);
       return () => {
         map.removeLayer(markerLayer);
       };

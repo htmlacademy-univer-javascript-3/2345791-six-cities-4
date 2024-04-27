@@ -1,16 +1,32 @@
 import {Helmet} from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { AppRoute, cardType } from '../const';
 import ReviewList from '../components/review-list';
 import Map from '../components/map';
 import { points } from '../mocks/points';
 import OfferList from '../components/offer-list';
-import { offers } from '../mocks/offers';
 import { useAppSelector } from '../hooks';
+import { Offer } from '../types/offer';
+import { fetchOfferAction } from '../store/api-actions';
+import store from '../store';
+import LoadingScreen from './loading-screen/loading-screen';
+import { useEffect } from 'react';
 
 
 function OfferPage(): JSX.Element {
-  const offer = useAppSelector((state) => state.selectedOffer);
+  const offers = useAppSelector((state) => state.offers);
+  const isOfferDataLoading = useAppSelector((state) => state.isOfferDataLoading);
+  const location = useLocation().pathname;
+  const offerId = location.substring(location.lastIndexOf('/') + 1);
+  useEffect(() => {
+    store.dispatch(fetchOfferAction(offerId));
+  }, [offerId]);
+  const offer = useAppSelector((state) => state.loadedOffer) as Offer;
+  if (isOfferDataLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
   return (
     <div className="page">
       <Helmet>
@@ -48,24 +64,11 @@ function OfferPage(): JSX.Element {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src={offer.image.src} alt={offer.image.alt} />
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-01.jpg" alt="Photo studio" />
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-02.jpg" alt="Photo studio" />
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-03.jpg" alt="Photo studio" />
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/studio-01.jpg" alt="Photo studio" />
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-01.jpg" alt="Photo studio" />
-              </div>
+              {offer.images.map((image) => (
+                <div className="offer__image-wrapper" key={image}>
+                  <img className="offer__image" src={image} alt="Photo studio"/>
+                </div>
+              ))}
             </div>
           </div>
           <div className="offer__container container">
@@ -76,7 +79,7 @@ function OfferPage(): JSX.Element {
                 </div> : null}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
-                  {offer.name}
+                  {offer.title}
                 </h1>
                 <button className="offer__bookmark-button button" type="button">
                   <svg className="offer__bookmark-icon" width={31} height={33}>
@@ -97,10 +100,10 @@ function OfferPage(): JSX.Element {
                   {offer.type}
                 </li>
                 <li className="offer__feature offer__feature--bedrooms">
-              3 Bedrooms
+                  {offer.bedrooms} Bedrooms
                 </li>
                 <li className="offer__feature offer__feature--adults">
-              Max 4 adults
+              Max {offer.maxAdults} adults
                 </li>
               </ul>
               <div className="offer__price">
@@ -110,49 +113,24 @@ function OfferPage(): JSX.Element {
               <div className="offer__inside">
                 <h2 className="offer__inside-title">What&apos;s inside</h2>
                 <ul className="offer__inside-list">
-                  <li className="offer__inside-item">
-                Wi-Fi
-                  </li>
-                  <li className="offer__inside-item">
-                Washing machine
-                  </li>
-                  <li className="offer__inside-item">
-                Towels
-                  </li>
-                  <li className="offer__inside-item">
-                Heating
-                  </li>
-                  <li className="offer__inside-item">
-                Coffee machine
-                  </li>
-                  <li className="offer__inside-item">
-                Baby seat
-                  </li>
-                  <li className="offer__inside-item">
-                Kitchen
-                  </li>
-                  <li className="offer__inside-item">
-                Dishwasher
-                  </li>
-                  <li className="offer__inside-item">
-                Cabel TV
-                  </li>
-                  <li className="offer__inside-item">
-                Fridge
-                  </li>
+                  {offer.goods.map((good) => (
+                    <li className="offer__inside-item" key={good}>
+                      {good}
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
                   <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="offer__avatar user__avatar" src="img/avatar-angelina.jpg" width={74} height={74} alt="Host avatar" />
+                    <img className="offer__avatar user__avatar" src={offer.host.avatarUrl} width={74} height={74} alt="Host avatar" />
                   </div>
                   <span className="offer__user-name">
-                Angelina
+                    {offer.host.name}
                   </span>
                   <span className="offer__user-status">
-                Pro
+                    {(offer.host.isPro) ? 'Pro' : 'Not pro'}
                   </span>
                 </div>
                 <div className="offer__description">
@@ -161,7 +139,7 @@ function OfferPage(): JSX.Element {
                   </p>
                 </div>
               </div>
-              <ReviewList reviews={offer.reviews} ></ReviewList>
+              {(offer.reviews) ? <ReviewList reviews={offer.reviews} ></ReviewList> : ''}
             </div>
           </div>
           <section className="offer__map map" >

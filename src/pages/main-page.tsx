@@ -5,17 +5,19 @@ import { AppRoute, cardType } from '../const';
 import Map from '../components/map';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import CityList from '../components/city-list';
-import { changeCity } from '../store/action';
+import { changeCity, setOfferDataLoadingStatus } from '../store/action';
 import SortList from '../components/sort-list';
 import { sortOffers } from '../utils';
+import store from '../store';
 
 function MainPage(): JSX.Element {
   const offers = useAppSelector((state) => state.offers);
   const city = useAppSelector((state) => state.city);
   const dispatch = useAppDispatch();
   const sortType = useAppSelector((state) => state.sortType);
-  const filteredOffers = sortOffers(offers.filter((offer) => offer.city === city), sortType);
-  const points = filteredOffers.map((offer) => offer.point);
+  const filteredOffers = sortOffers(offers.filter((offer) => JSON.stringify(offer.city) === JSON.stringify(city)), sortType);
+  const points = filteredOffers.map((offer) => offer.location);
+  store.dispatch(setOfferDataLoadingStatus(true));
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -61,7 +63,7 @@ function MainPage(): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{filteredOffers.length} places to stay in {city.title}</b>
+              <b className="places__found">{filteredOffers.length} places to stay in {city.name}</b>
               <SortList/>
               <OfferList offers={filteredOffers} type={cardType.Main}/>
             </section>

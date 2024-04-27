@@ -3,11 +3,12 @@ import { OfferType } from '../const';
 import {Image} from '../types/image';
 import {TReview} from '../types/review';
 import { City } from './city';
-import { Point } from './point';
+import { Host } from './host';
+import { Location } from './location';
 
 export type Offer = {
-  id: number;
-  name: string;
+  id: string;
+  title: string;
   description: string;
   image: Image;
   price: number;
@@ -17,5 +18,11 @@ export type Offer = {
   reviews: TReview [];
   isPremium: boolean;
   city: City;
-  point: Point;
+  location: Location;
+  bedrooms: number;
+  goods: string[];
+  images: string[];
+  maxAdults: number;
+  host: Host;
+  previewImage: string;
 };
