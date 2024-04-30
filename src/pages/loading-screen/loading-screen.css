@@ -1,0 +1,18 @@
+.spinner {
+  height: 120px;
+  width: 120px;
+  border: 6px solid;
+  border-color: steelblue transparent steelblue transparent;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

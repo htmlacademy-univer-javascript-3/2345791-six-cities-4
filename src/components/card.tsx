@@ -19,8 +19,8 @@ function Card({offer, type}: CardProps): JSX.Element {
         </div> : null}
       <div className={(type === cardType.Favorite) ? 'favorites__image-wrapper place-card__image-wrapper' : 'cities__image-wrapper place-card__image-wrapper'}>
         <a href="#">
-          <img className="place-card__image" src={offer.image.src} width={(type === cardType.Favorite) ? 150 : 260}
-            height={(type === cardType.Favorite) ? 110 : 200} alt={offer.image.src}
+          <img className="place-card__image" src={offer.previewImage} width={(type === cardType.Favorite) ? 150 : 260}
+            height={(type === cardType.Favorite) ? 110 : 200}
           />
         </a>
       </div>
@@ -44,7 +44,7 @@ function Card({offer, type}: CardProps): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`${AppRoute.Offer}/${offer.id}`}>{offer.name}</Link>
+          <Link to={`${AppRoute.Offer}/${offer.id}`}>{offer.title}</Link>
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>

@@ -1,5 +1,6 @@
-import {Point} from '../types/point';
+import { Location } from './location';
 
 export type City = {
-  title: string;
-} & Point;
+  name: string;
+  location: Location;
+};

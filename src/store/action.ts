@@ -7,7 +7,6 @@ export const changeCity = createAction('cities/change', (city: City) => ({
   payload: city
 })
 );
-export const getOffers = createAction('offers/get');
 
 export const changeSelectedOffer = createAction('offers/change', (offer:Offer) => ({
   payload: offer
@@ -16,3 +15,13 @@ export const changeSelectedOffer = createAction('offers/change', (offer:Offer) =
 export const changeSortType = createAction('sortType/change', (sortType:SortType) => ({
   payload: sortType
 }));
+
+export const setOffersDataLoadingStatus = createAction<boolean>('data/setOffersDataLoadingStatus');
+
+export const setOfferDataLoadingStatus = createAction<boolean>('data/setOfferDataLoadingStatus');
+
+export const loadOffers = createAction<Offer[]>('data/loadOffers');
+
+export const setError = createAction<string | null>('cities/setError');
+
+export const loadOffer = createAction<Offer>('data/loadOffer');
