@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { AppRoute, cardType } from '../const';
 import ReviewList from '../components/review-list';
 import Map from '../components/map';
-import { points } from '../mocks/points';
 import OfferList from '../components/offer-list';
 import { useAppSelector } from '../hooks';
 import { Offer } from '../types/offer';
@@ -143,7 +142,7 @@ function OfferPage(): JSX.Element {
             </div>
           </div>
           <section className="offer__map map" >
-            <Map points={points}/>
+            <Map points={offers.map((offerItem) => offerItem.location)}/>
           </section>
         </section>
         <div className="container">

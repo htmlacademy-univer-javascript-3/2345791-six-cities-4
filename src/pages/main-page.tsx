@@ -16,7 +16,6 @@ function MainPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const sortType = useAppSelector((state) => state.sortType);
   const filteredOffers = sortOffers(offers.filter((offer) => JSON.stringify(offer.city) === JSON.stringify(city)), sortType);
-  const points = filteredOffers.map((offer) => offer.location);
   store.dispatch(setOfferDataLoadingStatus(true));
   return (
     <div className="page page--gray page--main">
@@ -69,7 +68,7 @@ function MainPage(): JSX.Element {
             </section>
             <div className="cities__right-section">
               <section className="cities__map map" >
-                <Map points={points}/>
+                <Map points={filteredOffers.map((offer) => offer.location)}/>
               </section>
             </div>
           </div>
