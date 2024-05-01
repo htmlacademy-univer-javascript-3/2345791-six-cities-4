@@ -1,9 +1,10 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { AuthorizationStatus, cities, SortType } from '../const';
-import { changeAuthorizationStatus, changeCity, changeSelectedOffer, changeSortType, loadOffer, loadOffers, loadUserData, setError, setOfferDataLoadingStatus, setOffersDataLoadingStatus } from './action';
+import { changeAuthorizationStatus, changeCity, changeSelectedOffer, changeSortType, loadComments, loadNearbyOffers, loadOffer, loadOffers, loadUserData, setError, setOfferDataLoadingStatus, setOffersDataLoadingStatus } from './action';
 import {Offer} from '../types/offer';
 import { City } from '../types/city';
 import { UserData } from '../types/user-data';
+import { TReview } from '../types/review';
 
 type StateType = {
   city: City;
@@ -16,6 +17,8 @@ type StateType = {
   loadedOffer?: Offer;
   authorizationStatus: AuthorizationStatus;
   userData?: UserData;
+  comments?: TReview[];
+  nearbyOffers?: Offer[];
 }
 
 const initialState: StateType = {
@@ -59,6 +62,12 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadUserData, (state, action) => {
       state.userData = action.payload;
+    })
+    .addCase(loadComments, (state, action) => {
+      state.comments = action.payload;
+    })
+    .addCase(loadNearbyOffers, (state, action) => {
+      state.nearbyOffers = action.payload;
     });
 });
 
