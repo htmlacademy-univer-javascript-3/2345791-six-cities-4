@@ -9,6 +9,7 @@ import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { dropToken, saveToken } from '../token';
 import { TReview } from '../types/review';
+import { ReviewData } from '../types/review-data';
 
 export const clearErrorAction = createAsyncThunk(
   'cities/clearError',
@@ -91,5 +92,18 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     await api.delete(APIRoute.Logout);
     dropToken();
     dispatch(changeAuthorizationStatus(AuthorizationStatus.NoAuth));
+  },
+);
+
+export const postComment = createAsyncThunk<void, ReviewData, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/comment',
+  async ({id, comment, rating}, {dispatch, extra: api}) => {
+    await api.post<ReviewData>(`${APIRoute.Comments}/${id}`, {comment, rating});
+    const comments = (await api.get<TReview[]>(`${APIRoute.Comments}/${id}`)).data;
+    dispatch(loadComments(comments));
   },
 );

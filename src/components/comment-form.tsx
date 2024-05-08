@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { FormEvent } from 'react';
+import { postComment } from '../store/api-actions';
+import { useAppSelector } from '../hooks';
+import store from '../store';
 
 function CommentForm(): JSX.Element {
   const [review, setReview] = React.useState({
     reviewText: '',
-    rating: 0
+    rating: '0'
   });
   const handleFieldChange = (evt: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) => {
     const {name, value} = evt.target;
     setReview({...review, [name]: value});
   };
+  const offerId = useAppSelector((state) => state.loadedOffer!.id);
   return (
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="reviewText">Your review</label>
@@ -50,7 +54,13 @@ function CommentForm(): JSX.Element {
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" onClick={(evt: FormEvent<HTMLButtonElement>) => {
+          evt.preventDefault();
+          store.dispatch(postComment({id: offerId, comment:review.reviewText, rating:parseInt(review.rating, 10)}));
+        }}
+        >
+        Submit
+        </button>
       </div>
     </form>
   );
