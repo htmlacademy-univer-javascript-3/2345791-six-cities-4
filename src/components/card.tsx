@@ -3,6 +3,7 @@ import { Offer } from '../types/offer';
 import { AppRoute, cardType, cardTypeMap } from '../const';
 import { useAppDispatch } from '../hooks';
 import { changeSelectedOffer } from '../store/action';
+import React from 'react';
 
 type CardProps = {
   offer:Offer;
@@ -51,4 +52,4 @@ function Card({offer, type}: CardProps): JSX.Element {
     </article>
   );
 }
-export default Card;
+export default React.memo(Card);

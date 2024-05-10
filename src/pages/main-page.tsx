@@ -9,13 +9,15 @@ import SortList from '../components/sort-list';
 import { sortOffers } from '../utils';
 import store from '../store';
 import Header from '../components/header';
+import React from 'react';
 
 function MainPage(): JSX.Element {
-  const offers = useAppSelector((state) => state.offers);
   const city = useAppSelector((state) => state.city);
+  const offers = useAppSelector((state) => state.offers.filter((offer) => JSON.stringify(offer.city) === JSON.stringify(city)));
   const dispatch = useAppDispatch();
   const sortType = useAppSelector((state) => state.sortType);
-  const filteredOffers = sortOffers(offers.filter((offer) => JSON.stringify(offer.city) === JSON.stringify(city)), sortType);
+  const sort = React.useCallback(sortOffers, [sortType]);
+  const filteredOffers = React.useMemo(() => sort(offers, sortType), [offers]);
   store.dispatch(setOfferDataLoadingStatus(true));
   return (
     <div className="page page--gray page--main">

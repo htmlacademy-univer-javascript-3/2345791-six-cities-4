@@ -33,4 +33,4 @@ function SortList(): JSX.Element {
   );
 }
 
-export default SortList;
+export default React.memo(SortList);

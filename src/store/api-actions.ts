@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from './store';
 import { AxiosInstance } from 'axios';
 import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
-import { changeAuthorizationStatus, loadComments, loadNearbyOffers, loadOffer, loadOffers, loadUserData, setError, setOfferDataLoadingStatus, setOffersDataLoadingStatus } from './action';
+import { changeAuthorizationStatus, changeCity, loadComments, loadNearbyOffers, loadOffer, loadOffers, loadUserData, setError, setOfferDataLoadingStatus, setOffersDataLoadingStatus } from './action';
 import { Offer } from '../types/offer';
 import store from '.';
 import { AuthData } from '../types/auth-data';
@@ -48,6 +48,7 @@ export const fetchOfferAction = createAsyncThunk<void, string, {
     dispatch(loadOffer(data));
     dispatch(loadComments(comments));
     dispatch(loadNearbyOffers(nearbyOffers));
+    dispatch(changeCity(data.city));
     dispatch(setOfferDataLoadingStatus(false));
   }
 );

@@ -42,4 +42,4 @@ function Map(props: MapProps): JSX.Element {
   return <div style={{height: '100%'}} ref={mapRef}></div>;
 }
 
-export default Map;
+export default React.memo(Map);

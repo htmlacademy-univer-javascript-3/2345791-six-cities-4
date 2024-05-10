@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../const';
 import { useAppSelector } from '../hooks';
+import React from 'react';
 
 function Header(): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
@@ -65,4 +66,4 @@ function Header(): JSX.Element {
     );
   }
 }
-export default Header;
+export default React.memo(Header);

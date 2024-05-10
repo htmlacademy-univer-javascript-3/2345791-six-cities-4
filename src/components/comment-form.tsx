@@ -66,4 +66,4 @@ function CommentForm(): JSX.Element {
   );
 }
 
-export default CommentForm;
+export default React.memo(CommentForm);

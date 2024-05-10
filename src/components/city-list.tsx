@@ -1,3 +1,4 @@
+import React from 'react';
 import { cities } from '../const';
 import { City } from '../types/city';
 
@@ -20,4 +21,4 @@ function CityList({selectedCity, changeCity}: CityListProps): JSX.Element {
   );
 }
 
-export default CityList;
+export default React.memo(CityList);
