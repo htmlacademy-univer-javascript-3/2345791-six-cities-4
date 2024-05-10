@@ -1,10 +1,9 @@
-import {Image} from '../types/image';
+import { User } from './user';
 
 export type TReview = {
   id: number;
-  author: string;
-  avatar: Image;
   rating: number;
   date: string;
-  description: string;
+  comment: string;
+  user: User;
 }

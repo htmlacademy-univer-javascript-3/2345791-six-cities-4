@@ -11,10 +11,10 @@ import store from '../store';
 import LoadingScreen from './loading-screen/loading-screen';
 import { useEffect } from 'react';
 import Header from '../components/header';
+import { TReview } from '../types/review';
 
 
 function OfferPage(): JSX.Element {
-  const offers = useAppSelector((state) => state.offers);
   const isOfferDataLoading = useAppSelector((state) => state.isOfferDataLoading);
   const location = useLocation().pathname;
   const offerId = location.substring(location.lastIndexOf('/') + 1);
@@ -22,6 +22,8 @@ function OfferPage(): JSX.Element {
     store.dispatch(fetchOfferAction(offerId));
   }, [offerId]);
   const offer = useAppSelector((state) => state.loadedOffer) as Offer;
+  const offers = useAppSelector((state) => state.nearbyOffers) as Offer[];
+  const reviews = useAppSelector((state) => state.comments) as TReview[];
   if (isOfferDataLoading) {
     return (
       <LoadingScreen />
@@ -112,7 +114,7 @@ function OfferPage(): JSX.Element {
                   </p>
                 </div>
               </div>
-              {(offer.reviews) ? <ReviewList reviews={offer.reviews} ></ReviewList> : ''}
+              <ReviewList reviews={reviews} ></ReviewList>
             </div>
           </div>
           <section className="offer__map map" >

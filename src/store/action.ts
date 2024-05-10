@@ -3,6 +3,7 @@ import { City } from '../types/city';
 import { Offer } from '../types/offer';
 import { AuthorizationStatus, SortType } from '../const';
 import { UserData } from '../types/user-data';
+import { TReview } from '../types/review';
 
 export const changeCity = createAction('cities/change', (city: City) => ({
   payload: city
@@ -30,3 +31,7 @@ export const loadOffer = createAction<Offer>('data/loadOffer');
 export const changeAuthorizationStatus = createAction<AuthorizationStatus>('user/changeAuthorizationStatus');
 
 export const loadUserData = createAction<UserData>('data/loadUserData');
+
+export const loadComments = createAction<TReview[]>('data/loadComments');
+
+export const loadNearbyOffers = createAction<Offer[]>('data/loadNearbyOffers');

@@ -1,3 +1,5 @@
+import { AuthorizationStatus } from '../const';
+import { useAppSelector } from '../hooks';
 import { TReview } from '../types/review';
 import CommentForm from './comment-form';
 import Review from './review';
@@ -7,6 +9,7 @@ type ReviewListProps = {
 };
 
 function ReviewList ({reviews}: ReviewListProps): JSX.Element {
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   return (
     <section className="offer__reviews reviews">
       <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviews.length}</span></h2>
@@ -15,7 +18,7 @@ function ReviewList ({reviews}: ReviewListProps): JSX.Element {
           <Review key={review.id} review={review}/>
         ))}
       </ul>
-      <CommentForm/>
+      {(authorizationStatus === AuthorizationStatus.Auth) ? <CommentForm/> : ''}
     </section>
   );
 }

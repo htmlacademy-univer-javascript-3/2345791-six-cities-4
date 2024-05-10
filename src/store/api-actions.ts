@@ -2,12 +2,14 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from './store';
 import { AxiosInstance } from 'axios';
 import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
-import { changeAuthorizationStatus, loadOffer, loadOffers, loadUserData, setError, setOfferDataLoadingStatus, setOffersDataLoadingStatus } from './action';
+import { changeAuthorizationStatus, loadComments, loadNearbyOffers, loadOffer, loadOffers, loadUserData, setError, setOfferDataLoadingStatus, setOffersDataLoadingStatus } from './action';
 import { Offer } from '../types/offer';
 import store from '.';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { dropToken, saveToken } from '../token';
+import { TReview } from '../types/review';
+import { ReviewData } from '../types/review-data';
 
 export const clearErrorAction = createAsyncThunk(
   'cities/clearError',
@@ -41,8 +43,12 @@ export const fetchOfferAction = createAsyncThunk<void, string, {
   'data/fetchOffer',
   async (id, {dispatch, extra: api}) => {
     const {data} = await api.get<Offer>(`${APIRoute.Offers}/${id}`);
-    dispatch(setOfferDataLoadingStatus(false));
+    const comments = (await api.get<TReview[]>(`${APIRoute.Comments}/${id}`)).data;
+    const nearbyOffers = (await api.get<Offer[]>(`${APIRoute.Offers}/${id}/nearby`)).data;
     dispatch(loadOffer(data));
+    dispatch(loadComments(comments));
+    dispatch(loadNearbyOffers(nearbyOffers));
+    dispatch(setOfferDataLoadingStatus(false));
   }
 );
 
@@ -86,5 +92,18 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     await api.delete(APIRoute.Logout);
     dropToken();
     dispatch(changeAuthorizationStatus(AuthorizationStatus.NoAuth));
+  },
+);
+
+export const postComment = createAsyncThunk<void, ReviewData, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/comment',
+  async ({id, comment, rating}, {dispatch, extra: api}) => {
+    await api.post<ReviewData>(`${APIRoute.Comments}/${id}`, {comment, rating});
+    const comments = (await api.get<TReview[]>(`${APIRoute.Comments}/${id}`)).data;
+    dispatch(loadComments(comments));
   },
 );
