@@ -52,4 +52,4 @@ function CardComponent({offer, type}: CardProps): JSX.Element {
     </article>
   );
 }
-export const Card = React.memo(CardComponent);
+export const Card = React.memo(CardComponent, (prevProps, currentProps) => prevProps.offer === currentProps.offer && prevProps.type === prevProps.type);

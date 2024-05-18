@@ -16,8 +16,8 @@ function MainPage(): JSX.Element {
   const offers = useAppSelector((state) => state[NameSpace.Data].offers.filter((offer) => JSON.stringify(offer.city) === JSON.stringify(city)));
   const dispatch = useAppDispatch();
   const sortType = useAppSelector((state) => state[NameSpace.Data].sortType);
-  const sort = React.useCallback(sortOffers, [sortType]);
-  const filteredOffers = React.useMemo(() => sort(offers, sortType), [offers, sortType, sort]);
+  const filteredOffers = React.useMemo(() => sortOffers(offers, sortType), [offers, sortType]);
+  const points = filteredOffers.map((offer) => offer.location);
   store.dispatch(setOfferDataLoadingStatus(true));
   return (
     <div className="page page--gray page--main">
@@ -42,7 +42,7 @@ function MainPage(): JSX.Element {
             </section>
             <div className="cities__right-section">
               <section className="cities__map map" >
-                <Map points={filteredOffers.map((offer) => offer.location)}/>
+                <Map points={points}/>
               </section>
             </div>
           </div>
