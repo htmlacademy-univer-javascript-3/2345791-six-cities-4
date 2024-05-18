@@ -1,12 +1,12 @@
 import React from 'react';
-import { SortType } from '../const';
+import { NameSpace, SortType } from '../const';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { changeSortType } from '../store/action';
 
 
-function SortList(): JSX.Element {
+function SortListComponent(): JSX.Element {
   const [isSortOpen, setIsSortOpen] = React.useState(false);
-  const sortType = useAppSelector((state) => state.sortType);
+  const sortType = useAppSelector((state) => state[NameSpace.Data].sortType);
   const dispatch = useAppDispatch();
   return (
     <form className="places__sorting" action="#" method="get" onBlur =
@@ -33,4 +33,4 @@ function SortList(): JSX.Element {
   );
 }
 
-export default SortList;
+export const SortList = React.memo(SortListComponent);

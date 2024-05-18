@@ -4,15 +4,16 @@ import useMap from '../use-map';
 import 'leaflet/dist/leaflet.css';
 import { useAppSelector } from '../hooks';
 import { Location } from '../types/location';
+import { NameSpace } from '../const';
 
 type MapProps = {
   points: Location[];
 }
 
-function Map(props: MapProps): JSX.Element {
-  const city = useAppSelector((state) => state.city);
+function MapComponent(props: MapProps): JSX.Element {
+  const city = useAppSelector((state) => state[NameSpace.Data].city);
   const {points} = props;
-  const selectedPoint = useAppSelector((state) => state.selectedOffer?.location);
+  const selectedPoint = useAppSelector((state) => state[NameSpace.Data].selectedOffer?.location);
   const mapRef = React.useRef(null);
   const map = useMap(mapRef, city);
   const activeIcon = icon({
@@ -42,4 +43,4 @@ function Map(props: MapProps): JSX.Element {
   return <div style={{height: '100%'}} ref={mapRef}></div>;
 }
 
-export default Map;
+export const Map = React.memo(MapComponent);

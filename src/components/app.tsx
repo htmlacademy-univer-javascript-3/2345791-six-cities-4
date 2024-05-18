@@ -1,6 +1,6 @@
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
 import {HelmetProvider} from 'react-helmet-async';
-import {AppRoute} from '../const';
+import {AppRoute, NameSpace} from '../const';
 import MainPage from '../pages/main-page';
 import LoginPage from '../pages/login-page';
 import FavoritesPage from '../pages/favorites-page';
@@ -13,8 +13,8 @@ import LoadingScreen from '../pages/loading-screen/loading-screen';
 
 
 function App(): JSX.Element {
-  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isOffersDataLoading = useAppSelector((state) => state[NameSpace.Loading].isOffersDataLoading);
+  const authorizationStatus = useAppSelector((state) => state[NameSpace.User].authorizationStatus);
 
   if (isOffersDataLoading) {
     return (

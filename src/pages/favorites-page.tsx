@@ -1,11 +1,11 @@
 import {Helmet} from 'react-helmet-async';
-import { cardType } from '../const';
+import { NameSpace, cardType } from '../const';
 import OfferList from '../components/offer-list';
 import { useAppSelector } from '../hooks';
-import Header from '../components/header';
+import {Header} from '../components/header';
 
 function FavoritesPage(): JSX.Element {
-  const offers = useAppSelector((state) => state.offers).filter((offer) => offer.isFavorite);
+  const offers = useAppSelector((state) => state[NameSpace.Data].offers).filter((offer) => offer.isFavorite);
   return (
     <div className="page">
       <Helmet>

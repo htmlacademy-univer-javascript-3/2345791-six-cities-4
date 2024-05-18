@@ -1,8 +1,8 @@
 import {Helmet} from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
-import { cardType } from '../const';
+import { NameSpace, cardType } from '../const';
 import ReviewList from '../components/review-list';
-import Map from '../components/map';
+import {Map} from '../components/map';
 import OfferList from '../components/offer-list';
 import { useAppSelector } from '../hooks';
 import { Offer } from '../types/offer';
@@ -10,20 +10,20 @@ import { fetchOfferAction } from '../store/api-actions';
 import store from '../store';
 import LoadingScreen from './loading-screen/loading-screen';
 import { useEffect } from 'react';
-import Header from '../components/header';
+import {Header} from '../components/header';
 import { TReview } from '../types/review';
 
 
 function OfferPage(): JSX.Element {
-  const isOfferDataLoading = useAppSelector((state) => state.isOfferDataLoading);
+  const isOfferDataLoading = useAppSelector((state) => state[NameSpace.Loading].isOfferDataLoading);
   const location = useLocation().pathname;
   const offerId = location.substring(location.lastIndexOf('/') + 1);
   useEffect(() => {
     store.dispatch(fetchOfferAction(offerId));
   }, [offerId]);
-  const offer = useAppSelector((state) => state.loadedOffer) as Offer;
-  const offers = useAppSelector((state) => state.nearbyOffers) as Offer[];
-  const reviews = useAppSelector((state) => state.comments) as TReview[];
+  const offer = useAppSelector((state) => state[NameSpace.Data].loadedOffer) as Offer;
+  const offers = useAppSelector((state) => state[NameSpace.Data].nearbyOffers) as Offer[];
+  const reviews = useAppSelector((state) => state[NameSpace.Data].comments) as TReview[];
   if (isOfferDataLoading) {
     return (
       <LoadingScreen />

@@ -1,3 +1,4 @@
+import React from 'react';
 import { cities } from '../const';
 import { City } from '../types/city';
 
@@ -6,7 +7,7 @@ type CityListProps = {
   changeCity: (city: City) => void;
 }
 
-function CityList({selectedCity, changeCity}: CityListProps): JSX.Element {
+function CityListComponent({selectedCity, changeCity}: CityListProps): JSX.Element {
   return (
     <ul className="locations__list tabs__list">
       {cities.map((city) => (
@@ -20,4 +21,4 @@ function CityList({selectedCity, changeCity}: CityListProps): JSX.Element {
   );
 }
 
-export default CityList;
+export const CityList = React.memo(CityListComponent);

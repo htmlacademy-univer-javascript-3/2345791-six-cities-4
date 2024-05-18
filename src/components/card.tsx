@@ -3,13 +3,14 @@ import { Offer } from '../types/offer';
 import { AppRoute, cardType, cardTypeMap } from '../const';
 import { useAppDispatch } from '../hooks';
 import { changeSelectedOffer } from '../store/action';
+import React from 'react';
 
 type CardProps = {
   offer:Offer;
   type: cardType;
 }
 
-function Card({offer, type}: CardProps): JSX.Element {
+function CardComponent({offer, type}: CardProps): JSX.Element {
   const dispatch = useAppDispatch();
   return (
     <article className= {cardTypeMap.get(type)} onMouseEnter={() => dispatch(changeSelectedOffer(offer))}>
@@ -51,4 +52,4 @@ function Card({offer, type}: CardProps): JSX.Element {
     </article>
   );
 }
-export default Card;
+export const Card = React.memo(CardComponent, (prevProps, currentProps) => prevProps.offer === currentProps.offer && prevProps.type === prevProps.type);

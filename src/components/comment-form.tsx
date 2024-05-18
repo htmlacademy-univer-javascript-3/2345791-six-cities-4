@@ -2,8 +2,9 @@ import React, { FormEvent } from 'react';
 import { postComment } from '../store/api-actions';
 import { useAppSelector } from '../hooks';
 import store from '../store';
+import { NameSpace } from '../const';
 
-function CommentForm(): JSX.Element {
+function CommentFormComponent(): JSX.Element {
   const [review, setReview] = React.useState({
     reviewText: '',
     rating: '0'
@@ -12,7 +13,7 @@ function CommentForm(): JSX.Element {
     const {name, value} = evt.target;
     setReview({...review, [name]: value});
   };
-  const offerId = useAppSelector((state) => state.loadedOffer!.id);
+  const offerId = useAppSelector((state) => state[NameSpace.Data].loadedOffer!.id);
   return (
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="reviewText">Your review</label>
@@ -66,4 +67,4 @@ function CommentForm(): JSX.Element {
   );
 }
 
-export default CommentForm;
+export const CommentForm = React.memo(CommentFormComponent);

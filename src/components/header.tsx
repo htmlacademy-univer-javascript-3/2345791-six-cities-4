@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../const';
+import { AppRoute, AuthorizationStatus, NameSpace } from '../const';
 import { useAppSelector } from '../hooks';
+import React from 'react';
 
-function Header(): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const userData = useAppSelector((state) => state.userData);
+function HeaderComponent(): JSX.Element {
+  const authorizationStatus = useAppSelector((state) => state[NameSpace.User].authorizationStatus);
+  const userData = useAppSelector((state) => state[NameSpace.User].userData);
   if (authorizationStatus === AuthorizationStatus.Auth) {
     return (
       <header className="header">
@@ -65,4 +66,4 @@ function Header(): JSX.Element {
     );
   }
 }
-export default Header;
+export const Header = React.memo(HeaderComponent);
