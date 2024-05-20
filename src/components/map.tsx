@@ -8,11 +8,12 @@ import { NameSpace } from '../const';
 
 type MapProps = {
   points: Location[];
+  isOfferPage: boolean;
 }
 
 function MapComponent(props: MapProps): JSX.Element {
   const city = useAppSelector((state) => state[NameSpace.Data].city);
-  const {points} = props;
+  const {points, isOfferPage} = props;
   const selectedPoint = useAppSelector((state) => state[NameSpace.Data].selectedOffer?.location);
   const mapRef = React.useRef(null);
   const map = useMap(mapRef, city);
@@ -28,7 +29,7 @@ function MapComponent(props: MapProps): JSX.Element {
           lng: point.longitude
         });
         marker.addTo(markerLayer);
-        if (point === selectedPoint) {
+        if (point === selectedPoint && !isOfferPage) {
           marker.setIcon(activeIcon);
         }
       });
@@ -37,7 +38,7 @@ function MapComponent(props: MapProps): JSX.Element {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, points, selectedPoint, city, activeIcon]);
+  }, [map, points, selectedPoint, city, activeIcon, isOfferPage]);
 
 
   return <div style={{height: '100%'}} ref={mapRef}></div>;

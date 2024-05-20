@@ -47,6 +47,7 @@ export const fetchOfferAction = createAsyncThunk<Offer, string, {
     dispatch(loadComments(comments));
     dispatch(loadNearbyOffers(nearbyOffers));
     dispatch(changeCity(data.city));
+    dispatch(clearErrorAction());
     return data;
   }
 );
@@ -79,6 +80,7 @@ export const loginAction = createAsyncThunk<void, AuthData, {
     saveToken(data.token);
     dispatch(changeAuthorizationStatus(AuthorizationStatus.Auth));
     dispatch(loadUserData(data));
+    dispatch(clearErrorAction());
   },
 );
 
@@ -92,6 +94,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     await api.delete(APIRoute.Logout);
     dropToken();
     dispatch(changeAuthorizationStatus(AuthorizationStatus.NoAuth));
+    dispatch(clearErrorAction());
   },
 );
 
@@ -105,17 +108,7 @@ export const postComment = createAsyncThunk<void, ReviewData, {
     await api.post<ReviewData>(`${APIRoute.Comments}/${id}`, {comment, rating});
     const comments = (await api.get<TReview[]>(`${APIRoute.Comments}/${id}`)).data;
     dispatch(loadComments(comments));
-  },
-);
-
-export const changeFavorite = createAsyncThunk<void, FavoriteData, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}>(
-  'data/favorite',
-  async ({id, status}, {extra: api}) => {
-    await api.post<ReviewData>(`${APIRoute.Favorite}/${id}/${status}`);
+    dispatch(clearErrorAction());
   },
 );
 
@@ -125,8 +118,22 @@ export const fetchFavoriteOffers = createAsyncThunk<Offer[], undefined, {
   extra: AxiosInstance;
 }>(
   'data/fetchFavorites',
-  async (_arg, {extra: api}) => {
+  async (_arg, {dispatch, extra: api}) => {
     const {data} = await api.get<Offer[]>(APIRoute.Favorite);
+    dispatch(clearErrorAction());
     return data;
+  },
+);
+
+export const changeFavorite = createAsyncThunk<void, FavoriteData, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/favorite',
+  async ({id, status}, {dispatch, extra: api}) => {
+    await api.post<ReviewData>(`${APIRoute.Favorite}/${id}/${status}`);
+    dispatch(fetchFavoriteOffers());
+    dispatch(clearErrorAction());
   },
 );

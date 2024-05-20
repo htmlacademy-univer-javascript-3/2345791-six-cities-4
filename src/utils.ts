@@ -1,6 +1,6 @@
 import { SortType } from './const';
 import store from './store';
-import { changeFavorite, fetchOffersAction } from './store/api-actions';
+import { changeFavorite } from './store/api-actions';
 import { Offer } from './types/offer';
 
 
@@ -34,8 +34,7 @@ export function formatDateForView(dateString: string) {
   return newDate;
 }
 
-export function changeFavoriteStatus(offer: Offer) {
-  const status = offer.isFavorite ? 0 : 1;
+export function changeFavoriteStatus(offer: Offer, isFavorite: boolean) {
+  const status = isFavorite ? 0 : 1;
   store.dispatch(changeFavorite({id: offer.id, status: status}));
-  store.dispatch(fetchOffersAction());
 }

@@ -4,7 +4,7 @@ import { Offer } from '../../types/offer';
 import { NameSpace, SortType, cities } from '../../const';
 import { TReview } from '../../types/review';
 import { changeCity, changeSelectedOffer, changeSortType, loadComments, loadNearbyOffers } from '../action';
-import { fetchOffersAction, fetchOfferAction, fetchFavoriteOffers } from '../api-actions';
+import { fetchOffersAction, fetchOfferAction, fetchFavoriteOffers, loginAction, postComment } from '../api-actions';
 
 type Data = {
   city: City;
@@ -14,7 +14,7 @@ type Data = {
   loadedOffer?: Offer;
   comments?: TReview[];
   nearbyOffers?: Offer[];
-  error: string | null;
+  error: string | undefined | null;
   isOffersDataLoading: boolean;
   isOfferDataLoading: boolean;
   hasError: boolean;
@@ -67,8 +67,9 @@ export const data = createSlice({
       .addCase(fetchOfferAction.pending, (state) => {
         state.isOfferDataLoading = true;
       })
-      .addCase(fetchOfferAction.rejected, (state) => {
+      .addCase(fetchOfferAction.rejected, (state, action) => {
         state.isOfferDataLoading = false;
+        state.error = action.error.message;
       })
       .addCase(fetchFavoriteOffers.fulfilled, (state, action) => {
         state.favoriteOffers = action.payload;
@@ -77,14 +78,21 @@ export const data = createSlice({
       .addCase(fetchFavoriteOffers.pending, (state) => {
         state.isFavoriteOffersDataLoading = true;
       })
-      .addCase(fetchFavoriteOffers.rejected, (state) => {
+      .addCase(fetchFavoriteOffers.rejected, (state, action) => {
         state.isFavoriteOffersDataLoading = false;
+        state.error = action.error.message;
       })
       .addCase(loadComments, (state, action) => {
         state.comments = action.payload;
       })
       .addCase(loadNearbyOffers, (state, action) => {
         state.nearbyOffers = action.payload;
+      })
+      .addCase(loginAction.rejected, (state, action) => {
+        state.error = action.error.message;
+      })
+      .addCase(postComment.rejected, (state, action) => {
+        state.error = action.error.message;
       });
   }
 });

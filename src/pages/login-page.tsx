@@ -1,15 +1,15 @@
 
 import {Helmet} from 'react-helmet-async';
-import { Link, useNavigate } from 'react-router-dom';
-import { AppRoute } from '../const';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus } from '../const';
 import { FormEvent, useRef } from 'react';
-import { useAppDispatch } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../hooks';
 import { loginAction } from '../store/api-actions';
 
 function LoginPage(): JSX.Element {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-
+  const authorizationStatus = useAppSelector((state) => state.USER.authorizationStatus);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -24,6 +24,9 @@ function LoginPage(): JSX.Element {
       navigate(AppRoute.Root);
     }
   };
+  if (authorizationStatus === AuthorizationStatus.Auth) {
+    return (<Navigate to={AppRoute.Root}/>);
+  }
   return (
     <div className="page page--gray page--login">
       <Helmet>

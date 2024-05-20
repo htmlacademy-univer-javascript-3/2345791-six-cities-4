@@ -14,10 +14,10 @@ import EmptyComponent from '../components/empty-component';
 
 function MainPage(): JSX.Element {
   const city = useAppSelector((state) => state[NameSpace.Data].city);
-  const offers = useAppSelector((state) => state[NameSpace.Data].offers.filter((offer) => JSON.stringify(offer.city) === JSON.stringify(city)));
+  const offers = useAppSelector((state) => state[NameSpace.Data].offers);
   const dispatch = useAppDispatch();
   const sortType = useAppSelector((state) => state[NameSpace.Data].sortType);
-  const filteredOffers = React.useMemo(() => sortOffers(offers, sortType), [offers, sortType]);
+  const filteredOffers = React.useMemo(() => sortOffers(offers.filter((offer) => JSON.stringify(offer.city) === JSON.stringify(city)), sortType), [city, offers, sortType]);
   const points = filteredOffers.map((offer) => offer.location);
   const hasError = useAppSelector((state) => state[NameSpace.Data].hasError);
   store.dispatch(setOfferDataLoadingStatus(true));
@@ -45,7 +45,7 @@ function MainPage(): JSX.Element {
               </section>
               <div className="cities__right-section">
                 <section className="cities__map map" >
-                  <Map points={points}/>
+                  <Map points={points} isOfferPage={false}/>
                 </section>
               </div>
             </div>
