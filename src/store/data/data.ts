@@ -3,7 +3,7 @@ import { City } from '../../types/city';
 import { Offer } from '../../types/offer';
 import { NameSpace, SortType, cities } from '../../const';
 import { TReview } from '../../types/review';
-import { changeCity, changeSelectedOffer, changeSortType, loadComments, loadNearbyOffers } from '../action';
+import { changeCity, changeSelectedOffer, changeSortType, loadComments, loadNearbyOffers, setError } from '../action';
 import { fetchOffersAction, fetchOfferAction, fetchFavoriteOffers, loginAction, postComment } from '../api-actions';
 
 type Data = {
@@ -93,6 +93,9 @@ export const data = createSlice({
       })
       .addCase(postComment.rejected, (state, action) => {
         state.error = action.error.message;
+      })
+      .addCase(setError, (state, action) => {
+        state.error = action.payload;
       });
   }
 });

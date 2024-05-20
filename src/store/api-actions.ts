@@ -66,6 +66,7 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
     } catch {
       dispatch(changeAuthorizationStatus(AuthorizationStatus.NoAuth));
     }
+    dispatch(clearErrorAction());
   },
 );
 
