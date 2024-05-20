@@ -1,6 +1,6 @@
 import {Helmet} from 'react-helmet-async';
-import { useLocation } from 'react-router-dom';
-import { NameSpace, cardType } from '../const';
+import { Link, useLocation } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus, NameSpace, cardType } from '../const';
 import ReviewList from '../components/review-list';
 import {Map} from '../components/map';
 import OfferList from '../components/offer-list';
@@ -12,10 +12,11 @@ import LoadingScreen from './loading-screen/loading-screen';
 import { useEffect } from 'react';
 import {Header} from '../components/header';
 import { TReview } from '../types/review';
+import { changeFavoriteStatus } from '../utils';
 
 
 function OfferPage(): JSX.Element {
-  const isOfferDataLoading = useAppSelector((state) => state[NameSpace.Loading].isOfferDataLoading);
+  const isOfferDataLoading = useAppSelector((state) => state[NameSpace.Data].isOfferDataLoading);
   const location = useLocation().pathname;
   const offerId = location.substring(location.lastIndexOf('/') + 1);
   useEffect(() => {
@@ -24,7 +25,8 @@ function OfferPage(): JSX.Element {
   const offer = useAppSelector((state) => state[NameSpace.Data].loadedOffer) as Offer;
   const offers = useAppSelector((state) => state[NameSpace.Data].nearbyOffers) as Offer[];
   const reviews = useAppSelector((state) => state[NameSpace.Data].comments) as TReview[];
-  if (isOfferDataLoading) {
+  const authorizationStatus = useAppSelector((state) => state.USER.authorizationStatus);
+  if (isOfferDataLoading || !offer) {
     return (
       <LoadingScreen />
     );
@@ -56,12 +58,23 @@ function OfferPage(): JSX.Element {
                 <h1 className="offer__name">
                   {offer.title}
                 </h1>
-                <button className="offer__bookmark-button button" type="button">
-                  <svg className="offer__bookmark-icon" width={31} height={33}>
-                    <use xlinkHref="#icon-bookmark" />
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                {(authorizationStatus === AuthorizationStatus.Auth) ? (
+                  <button className={`place-card__bookmark-button button ${(offer.isFavorite) ? 'place-card__bookmark-button--active' : ''}`} type="button" onClick={() => changeFavoriteStatus(offer)}>
+                    <svg className="place-card__bookmark-icon" width={18} height={19}>
+                      <use xlinkHref="#icon-bookmark" />
+                    </svg>
+                    <span className="visually-hidden">{(offer.isFavorite) ? 'To bookmarks' : 'In bookmarks'}</span>
+                  </button>
+                ) : (
+                  <Link to={AppRoute.Login}>
+                    <button className="place-card__bookmark-button button" type="button">
+                      <svg className="place-card__bookmark-icon" width={18} height={19}>
+                        <use xlinkHref="#icon-bookmark" />
+                      </svg>
+                      <span className="visually-hidden">To bookmarks</span>
+                    </button>
+                  </Link>)}
+                <span className="visually-hidden">To bookmarks</span>
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">

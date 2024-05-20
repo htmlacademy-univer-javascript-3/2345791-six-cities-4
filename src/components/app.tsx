@@ -13,7 +13,7 @@ import LoadingScreen from '../pages/loading-screen/loading-screen';
 
 
 function App(): JSX.Element {
-  const isOffersDataLoading = useAppSelector((state) => state[NameSpace.Loading].isOffersDataLoading);
+  const isOffersDataLoading = useAppSelector((state) => state[NameSpace.Data].isOffersDataLoading);
   const authorizationStatus = useAppSelector((state) => state[NameSpace.User].authorizationStatus);
 
   if (isOffersDataLoading) {

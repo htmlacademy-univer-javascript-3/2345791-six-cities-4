@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import { Offer } from '../types/offer';
-import { AppRoute, cardType, cardTypeMap } from '../const';
-import { useAppDispatch } from '../hooks';
+import { AppRoute, AuthorizationStatus, cardType, cardTypeMap } from '../const';
+import { useAppDispatch, useAppSelector } from '../hooks';
 import { changeSelectedOffer } from '../store/action';
 import React from 'react';
+import { changeFavoriteStatus } from '../utils';
 
 type CardProps = {
   offer:Offer;
@@ -11,6 +12,7 @@ type CardProps = {
 }
 
 function CardComponent({offer, type}: CardProps): JSX.Element {
+  const authorizationStatus = useAppSelector((state) => state.USER.authorizationStatus);
   const dispatch = useAppDispatch();
   return (
     <article className= {cardTypeMap.get(type)} onMouseEnter={() => dispatch(changeSelectedOffer(offer))}>
@@ -31,12 +33,23 @@ function CardComponent({offer, type}: CardProps): JSX.Element {
             <b className="place-card__price-value">€{offer.price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button button" type="button">
-            <svg className="place-card__bookmark-icon" width={18} height={19}>
-              <use xlinkHref="#icon-bookmark" />
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+          {(authorizationStatus === AuthorizationStatus.Auth) ? (
+            <button className={`place-card__bookmark-button button ${(offer.isFavorite) ? 'place-card__bookmark-button--active' : ''}`} type="button" onClick={() => changeFavoriteStatus(offer)}>
+              <svg className="place-card__bookmark-icon" width={18} height={19}>
+                <use xlinkHref="#icon-bookmark" />
+              </svg>
+              <span className="visually-hidden">{(offer.isFavorite) ? 'To bookmarks' : 'In bookmarks'}</span>
+            </button>
+          ) : (
+            <Link to={AppRoute.Login}>
+              <button className="place-card__bookmark-button button" type="button">
+                <svg className="place-card__bookmark-icon" width={18} height={19}>
+                  <use xlinkHref="#icon-bookmark" />
+                </svg>
+                <span className="visually-hidden">To bookmarks</span>
+              </button>
+            </Link>)}
+          <span className="visually-hidden">To bookmarks</span>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

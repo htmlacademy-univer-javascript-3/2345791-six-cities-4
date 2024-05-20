@@ -10,6 +10,7 @@ import { sortOffers } from '../utils';
 import store from '../store';
 import {Header} from '../components/header';
 import React from 'react';
+import EmptyComponent from '../components/empty-component';
 
 function MainPage(): JSX.Element {
   const city = useAppSelector((state) => state[NameSpace.Data].city);
@@ -18,6 +19,7 @@ function MainPage(): JSX.Element {
   const sortType = useAppSelector((state) => state[NameSpace.Data].sortType);
   const filteredOffers = React.useMemo(() => sortOffers(offers, sortType), [offers, sortType]);
   const points = filteredOffers.map((offer) => offer.location);
+  const hasError = useAppSelector((state) => state[NameSpace.Data].hasError);
   store.dispatch(setOfferDataLoadingStatus(true));
   return (
     <div className="page page--gray page--main">
@@ -32,21 +34,23 @@ function MainPage(): JSX.Element {
             <CityList selectedCity={city} changeCity={(newCity) => dispatch(changeCity(newCity))}/>
           </section>
         </div>
-        <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{filteredOffers.length} places to stay in {city.name}</b>
-              <SortList/>
-              <OfferList offers={filteredOffers} type={cardType.Main}/>
-            </section>
-            <div className="cities__right-section">
-              <section className="cities__map map" >
-                <Map points={points}/>
+        {hasError ? <EmptyComponent city={city}/> : (
+          <div className="cities">
+            <div className="cities__places-container container">
+              <section className="cities__places places">
+                <h2 className="visually-hidden">Places</h2>
+                <b className="places__found">{filteredOffers.length} places to stay in {city.name}</b>
+                <SortList/>
+                <OfferList offers={filteredOffers} type={cardType.Main}/>
               </section>
+              <div className="cities__right-section">
+                <section className="cities__map map" >
+                  <Map points={points}/>
+                </section>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </main>
     </div>
   );

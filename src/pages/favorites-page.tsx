@@ -3,9 +3,23 @@ import { NameSpace, cardType } from '../const';
 import OfferList from '../components/offer-list';
 import { useAppSelector } from '../hooks';
 import {Header} from '../components/header';
+import store from '../store';
+import { fetchFavoriteOffers } from '../store/api-actions';
+import { useEffect } from 'react';
+import LoadingScreen from './loading-screen/loading-screen';
 
 function FavoritesPage(): JSX.Element {
-  const offers = useAppSelector((state) => state[NameSpace.Data].offers).filter((offer) => offer.isFavorite);
+  const city = useAppSelector((state) => state.DATA.city);
+  const offers = useAppSelector((state) => state[NameSpace.Data].favoriteOffers).filter((offer) => offer.city.name === city.name);
+  useEffect(() => {
+    store.dispatch(fetchFavoriteOffers());
+  }, []);
+  const isFavoritesLoading = useAppSelector((state) => state.DATA.isFavoriteOffersDataLoading);
+  if (isFavoritesLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
   return (
     <div className="page">
       <Helmet>
@@ -21,7 +35,7 @@ function FavoritesPage(): JSX.Element {
                 <div className="favorites__locations locations locations--current">
                   <div className="locations__item">
                     <a className="locations__item-link" href="#">
-                      <span>Amsterdam</span>
+                      <span>{city.name}</span>
                     </a>
                   </div>
                 </div>

@@ -1,5 +1,8 @@
 import { SortType } from './const';
+import store from './store';
+import { changeFavorite, fetchOffersAction } from './store/api-actions';
 import { Offer } from './types/offer';
+
 
 export function sortOffers(offers: Offer[], sortType: SortType) {
   switch(sortType) {
@@ -31,3 +34,8 @@ export function formatDateForView(dateString: string) {
   return newDate;
 }
 
+export function changeFavoriteStatus(offer: Offer) {
+  const status = offer.isFavorite ? 0 : 1;
+  store.dispatch(changeFavorite({id: offer.id, status: status}));
+  store.dispatch(fetchOffersAction());
+}
