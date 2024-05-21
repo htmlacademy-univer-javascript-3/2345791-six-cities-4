@@ -1,5 +1,9 @@
-import { SortType } from './const';
+import { SortType, cities } from './const';
+import store from './store';
+import { changeFavorite } from './store/api-actions';
+import { City } from './types/city';
 import { Offer } from './types/offer';
+
 
 export function sortOffers(offers: Offer[], sortType: SortType) {
   switch(sortType) {
@@ -31,3 +35,11 @@ export function formatDateForView(dateString: string) {
   return newDate;
 }
 
+export function changeFavoriteStatus(offer: Offer, isFavorite: boolean) {
+  const status = isFavorite ? 0 : 1;
+  store.dispatch(changeFavorite({id: offer.id, status: status}));
+}
+
+export function getRandomCity(): City {
+  return cities[Math.round(Math.random() * 5)];
+}

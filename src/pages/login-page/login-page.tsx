@@ -1,17 +1,25 @@
 
 import {Helmet} from 'react-helmet-async';
-import { Link, useNavigate } from 'react-router-dom';
-import { AppRoute } from '../const';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import { FormEvent, useRef } from 'react';
-import { useAppDispatch } from '../hooks';
-import { loginAction } from '../store/api-actions';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { loginAction } from '../../store/api-actions';
+import { getRandomCity } from '../../utils';
+import { changeCity } from '../../store/action';
 
 function LoginPage(): JSX.Element {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-
+  const authorizationStatus = useAppSelector((state) => state.USER.authorizationStatus);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const city = getRandomCity();
+
+  const handleCityClick = () => {
+    dispatch(changeCity(city));
+    navigate(AppRoute.Root);
+  };
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -24,6 +32,9 @@ function LoginPage(): JSX.Element {
       navigate(AppRoute.Root);
     }
   };
+  if (authorizationStatus === AuthorizationStatus.Auth) {
+    return (<Navigate to={AppRoute.Root}/>);
+  }
   return (
     <div className="page page--gray page--login">
       <Helmet>
@@ -51,15 +62,15 @@ function LoginPage(): JSX.Element {
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input className="login__input form__input" type="password" name="password" placeholder="Password" required ref={passwordRef} />
+                <input className="login__input form__input" type="password" name="password" placeholder="Password" required ref={passwordRef} pattern={'.*[0-9].*[A-Za-zА-Яа-яЁё].*$|^.*[A-Za-zА-Яа-яЁё].*[0-9].*'} title={'Пароль должен содержать как минимум одну цифру и одну букву'}/>
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
+              <a className="locations__item-link" onClick={() => handleCityClick()}>
+                <span>{city.name}</span>
               </a>
             </div>
           </section>

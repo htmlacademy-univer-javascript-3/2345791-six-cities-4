@@ -22,11 +22,7 @@ export const setOffersDataLoadingStatus = createAction<boolean>('data/setOffersD
 
 export const setOfferDataLoadingStatus = createAction<boolean>('data/setOfferDataLoadingStatus');
 
-export const loadOffers = createAction<Offer[]>('data/loadOffers');
-
-export const setError = createAction<string | null>('cities/setError');
-
-export const loadOffer = createAction<Offer>('data/loadOffer');
+export const setError = createAction<string | null | undefined>('cities/setError');
 
 export const changeAuthorizationStatus = createAction<AuthorizationStatus>('user/changeAuthorizationStatus');
 

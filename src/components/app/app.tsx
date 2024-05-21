@@ -1,19 +1,19 @@
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
 import {HelmetProvider} from 'react-helmet-async';
-import {AppRoute, NameSpace} from '../const';
-import MainPage from '../pages/main-page';
-import LoginPage from '../pages/login-page';
-import FavoritesPage from '../pages/favorites-page';
-import OfferPage from '../pages/offer-page';
-import NotFoundScreen from '../pages/not-found-page';
-import PrivateRoute from './private-route';
-import ErrorMessage from './error-message/error-message';
-import { useAppSelector } from '../hooks';
-import LoadingScreen from '../pages/loading-screen/loading-screen';
+import {AppRoute, NameSpace} from '../../const';
+import MainPage from '../../pages/main-page/main-page';
+import LoginPage from '../../pages/login-page/login-page';
+import FavoritesPage from '../../pages/favorites-page/favorites-page';
+import OfferPage from '../../pages/offer-page/offer-page';
+import NotFoundScreen from '../../pages/not-found-page/not-found-page';
+import PrivateRoute from '../private-route/private-route';
+import ErrorMessage from '../error-message/error-message';
+import { useAppSelector } from '../../hooks';
+import LoadingScreen from '../../pages/loading-page/loading-page';
 
 
 function App(): JSX.Element {
-  const isOffersDataLoading = useAppSelector((state) => state[NameSpace.Loading].isOffersDataLoading);
+  const isOffersDataLoading = useAppSelector((state) => state[NameSpace.Data].isOffersDataLoading);
   const authorizationStatus = useAppSelector((state) => state[NameSpace.User].authorizationStatus);
 
   if (isOffersDataLoading) {
