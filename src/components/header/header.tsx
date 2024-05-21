@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus, NameSpace } from '../const';
-import { useAppDispatch, useAppSelector } from '../hooks';
+import { AppRoute, AuthorizationStatus, NameSpace } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import React from 'react';
-import { logoutAction } from '../store/api-actions';
+import { logoutAction } from '../../store/api-actions';
 
 function HeaderComponent(): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state[NameSpace.User].authorizationStatus);

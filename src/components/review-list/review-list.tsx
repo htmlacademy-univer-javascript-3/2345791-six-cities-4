@@ -1,8 +1,8 @@
-import { AuthorizationStatus, NameSpace } from '../const';
-import { useAppSelector } from '../hooks';
-import { TReview } from '../types/review';
-import {CommentForm} from './comment-form';
-import Review from './review';
+import { AuthorizationStatus, NameSpace } from '../../const';
+import { useAppSelector } from '../../hooks';
+import { TReview } from '../../types/review';
+import {CommentForm} from '../comment-form/comment-form';
+import Review from '../review/review';
 
 type ReviewListProps = {
   reviews: TReview[];

@@ -1,18 +1,18 @@
 import {Helmet} from 'react-helmet-async';
 import { Link, useLocation } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus, NameSpace, cardType } from '../const';
-import ReviewList from '../components/review-list';
-import {Map} from '../components/map';
-import OfferList from '../components/offer-list';
-import { useAppSelector } from '../hooks';
-import { Offer } from '../types/offer';
-import { fetchOfferAction } from '../store/api-actions';
-import store from '../store';
-import LoadingScreen from './loading-screen/loading-screen';
+import { AppRoute, AuthorizationStatus, NameSpace, cardType } from '../../const';
+import ReviewList from '../../components/review-list/review-list';
+import {Map} from '../../components/map/map';
+import OfferList from '../../components/offer-list/offer-list';
+import { useAppSelector } from '../../hooks';
+import { Offer } from '../../types/offer';
+import { fetchOfferAction } from '../../store/api-actions';
+import store from '../../store';
+import LoadingScreen from '../loading-page/loading-page';
 import { useEffect } from 'react';
-import {Header} from '../components/header';
-import { TReview } from '../types/review';
-import { changeFavoriteStatus } from '../utils';
+import {Header} from '../../components/header/header';
+import { TReview } from '../../types/review';
+import { changeFavoriteStatus } from '../../utils';
 import React from 'react';
 
 
@@ -40,7 +40,7 @@ function OfferPage(): JSX.Element {
     let isMounted = true;
 
     setTimeout(() => {
-      if (isMounted) {
+      if (isMounted && offer) {
         setIsFavorite(offer.isFavorite);
       }
     }, TIMEOUT);

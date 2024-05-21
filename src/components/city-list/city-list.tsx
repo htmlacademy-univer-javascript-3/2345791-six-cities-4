@@ -1,6 +1,6 @@
 import React from 'react';
-import { cities } from '../const';
-import { City } from '../types/city';
+import { cities } from '../../const';
+import { City } from '../../types/city';
 
 type CityListProps = {
   selectedCity: City;

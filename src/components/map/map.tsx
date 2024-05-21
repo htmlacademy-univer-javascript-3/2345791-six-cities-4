@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import {Marker, layerGroup, icon} from 'leaflet';
-import useMap from '../use-map';
+import useMap from '../../use-map';
 import 'leaflet/dist/leaflet.css';
-import { useAppSelector } from '../hooks';
-import { Location } from '../types/location';
-import { NameSpace } from '../const';
+import { useAppSelector } from '../../hooks';
+import { Location } from '../../types/location';
+import { NameSpace } from '../../const';
 
 type MapProps = {
   points: Location[];

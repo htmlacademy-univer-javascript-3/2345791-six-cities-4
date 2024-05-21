@@ -1,7 +1,7 @@
 import React from 'react';
-import { NameSpace, SortType } from '../const';
-import { useAppDispatch, useAppSelector } from '../hooks';
-import { changeSortType } from '../store/action';
+import { NameSpace, SortType } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { changeSortType } from '../../store/action';
 
 
 function SortListComponent(): JSX.Element {

@@ -1,8 +1,8 @@
 import React, { FormEvent } from 'react';
-import { postComment } from '../store/api-actions';
-import { useAppSelector } from '../hooks';
-import store from '../store';
-import { NameSpace } from '../const';
+import { postComment } from '../../store/api-actions';
+import { useAppSelector } from '../../hooks';
+import store from '../../store';
+import { NameSpace } from '../../const';
 
 function CommentFormComponent(): JSX.Element {
   const [review, setReview] = React.useState({

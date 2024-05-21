@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
-import { Offer } from '../types/offer';
-import { AppRoute, AuthorizationStatus, cardType, cardTypeMap } from '../const';
-import { useAppDispatch, useAppSelector } from '../hooks';
-import { changeSelectedOffer } from '../store/action';
+import { Offer } from '../../types/offer';
+import { AppRoute, AuthorizationStatus, cardType, cardTypeMap } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { changeSelectedOffer } from '../../store/action';
 import React from 'react';
-import { changeFavoriteStatus } from '../utils';
+import { changeFavoriteStatus } from '../../utils';
 
 type CardProps = {
   offer:Offer;

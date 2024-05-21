@@ -1,16 +1,16 @@
 import {Helmet} from 'react-helmet-async';
-import OfferList from '../components/offer-list';
-import { NameSpace, cardType } from '../const';
-import {Map} from '../components/map';
-import { useAppDispatch, useAppSelector } from '../hooks';
-import {CityList} from '../components/city-list';
-import { changeCity, setOfferDataLoadingStatus } from '../store/action';
-import {SortList} from '../components/sort-list';
-import { sortOffers } from '../utils';
-import store from '../store';
-import {Header} from '../components/header';
+import OfferList from '../../components/offer-list/offer-list';
+import { NameSpace, cardType } from '../../const';
+import {Map} from '../../components/map/map';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import {CityList} from '../../components/city-list/city-list';
+import { changeCity, setOfferDataLoadingStatus } from '../../store/action';
+import {SortList} from '../../components/sort-list/sort-list';
+import { sortOffers } from '../../utils';
+import store from '../../store';
+import {Header} from '../../components/header/header';
 import React from 'react';
-import EmptyComponent from '../components/empty-component';
+import EmptyComponent from '../../components/empty-component/empty-component';
 
 function MainPage(): JSX.Element {
   const city = useAppSelector((state) => state[NameSpace.Data].city);
