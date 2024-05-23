@@ -9,7 +9,7 @@ type OfferListProps = {
 
 function OfferList({offers, type}: OfferListProps): JSX.Element {
   return (
-    <div className={listTypeMap.get(type)}>
+    <div className={listTypeMap.get(type)} data-testid='OfferListContainer'>
       {offers.map((offer) => (
         <Card key={offer.id} offer={offer} type={type}/>
       ))}

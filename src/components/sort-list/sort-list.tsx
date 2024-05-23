@@ -13,7 +13,7 @@ function SortListComponent(): JSX.Element {
     setIsSortOpen(false);
   };
   return (
-    <form className="places__sorting" action="#" method="get" onBlur =
+    <form className="places__sorting" data-testid='SortListContainer' action="#" method="get" onBlur =
       {(e) => {
         if (e.relatedTarget === null) {
           setIsSortOpen(false);

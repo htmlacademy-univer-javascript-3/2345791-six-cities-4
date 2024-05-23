@@ -9,7 +9,7 @@ type CityListProps = {
 
 function CityListComponent({selectedCity, changeCity}: CityListProps): JSX.Element {
   return (
-    <ul className="locations__list tabs__list">
+    <ul className="locations__list tabs__list" data-testid='cityListContainer'>
       {cities.map((city) => (
         <li className="locations__item" key={city.name} onClick={() => changeCity(city)}>
           <a className={`locations__item-link tabs__item ${(city === selectedCity) ? 'tabs__item--active' : ''}`} >

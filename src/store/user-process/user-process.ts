@@ -7,7 +7,7 @@ type UserProcess = {
   authorizationStatus: AuthorizationStatus;
   userData?: UserData;
 }
-const initialState: UserProcess = {
+export const initialState: UserProcess = {
   authorizationStatus: AuthorizationStatus.NoAuth,
 };
 

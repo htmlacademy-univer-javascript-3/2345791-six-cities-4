@@ -21,7 +21,7 @@ type Data = {
   favoriteOffers: Offer[];
   isFavoriteOffersDataLoading: boolean;
 }
-const initialState: Data = {
+export const initialState: Data = {
   city: cities[0],
   offers: [],
   favoriteOffers: [],

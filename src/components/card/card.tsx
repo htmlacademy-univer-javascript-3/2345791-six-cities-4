@@ -16,7 +16,7 @@ function CardComponent({offer, type}: CardProps): JSX.Element {
   const dispatch = useAppDispatch();
   const [isFavorite, setIsFavorite] = React.useState(offer.isFavorite);
   return (
-    <article className= {cardTypeMap.get(type)} onMouseEnter={() => dispatch(changeSelectedOffer(offer))}>
+    <article className= {cardTypeMap.get(type)} onMouseEnter={() => dispatch(changeSelectedOffer(offer))} data-testid='card-container'>
       {offer.isPremium ?
         <div className="place-card__mark">
           <span> Premium </span>

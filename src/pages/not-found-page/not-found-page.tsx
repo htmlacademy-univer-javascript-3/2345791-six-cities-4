@@ -3,7 +3,7 @@ import {Helmet} from 'react-helmet-async';
 
 function NotFoundScreen(): JSX.Element {
   return (
-    <div>
+    <div data-testid='NotFoundPageContainer'>
       <Helmet>
         <title>6 городов. Страница не найдена</title>
       </Helmet>

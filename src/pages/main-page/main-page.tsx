@@ -22,7 +22,7 @@ function MainPage(): JSX.Element {
   const hasError = useAppSelector((state) => state[NameSpace.Data].hasError);
   store.dispatch(setOfferDataLoadingStatus(true));
   return (
-    <div className="page page--gray page--main">
+    <div className="page page--gray page--main" data-testid='MainPageContainer'>
       <Helmet>
         <title>6 городов</title>
       </Helmet>

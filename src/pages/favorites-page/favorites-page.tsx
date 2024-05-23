@@ -20,7 +20,7 @@ function FavoritesPage(): JSX.Element {
     );
   }
   return (
-    <div className="page">
+    <div className="page" data-testid='FavoritesPageContainer'>
       <Helmet>
         <title>6 городов. Любимые предложения</title>
       </Helmet>

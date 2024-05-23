@@ -15,7 +15,7 @@ function CommentFormComponent(): JSX.Element {
   };
   const offerId = useAppSelector((state) => state[NameSpace.Data].loadedOffer!.id);
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="#" method="post" data-testid='commentFormContainer'>
       <label className="reviews__label form__label" htmlFor="reviewText">Your review</label>
       <div className="reviews__rating-form form__rating">
         <input className="form__rating-input visually-hidden" name="rating" defaultValue={5} id="5-stars" type="radio" onChange={handleFieldChange}/>

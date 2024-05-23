@@ -7,7 +7,7 @@ import { Offer } from '../types/offer';
 import store from '.';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
-import { dropToken, saveToken } from '../token';
+import { dropToken, saveToken } from '../services/token';
 import { TReview } from '../types/review';
 import { ReviewData } from '../types/review-data';
 import { FavoriteData } from '../types/favorite-data';

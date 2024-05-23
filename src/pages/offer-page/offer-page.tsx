@@ -37,17 +37,9 @@ function OfferPage(): JSX.Element {
   const offer = useAppSelector((state) => state[NameSpace.Data].loadedOffer) as Offer;
   const [isFavorite, setIsFavorite] = React.useState(false);
   useEffect(() => {
-    let isMounted = true;
-
-    setTimeout(() => {
-      if (isMounted && offer) {
-        setIsFavorite(offer.isFavorite);
-      }
-    }, TIMEOUT);
-
-    return () => {
-      isMounted = false;
-    };
+    if (offer) {
+      setIsFavorite(offer.isFavorite);
+    }
   }, [offer]);
   const offers = useAppSelector((state) => state[NameSpace.Data].nearbyOffers) as Offer[];
   const reviews = useAppSelector((state) => state[NameSpace.Data].comments) as TReview[];
@@ -58,7 +50,7 @@ function OfferPage(): JSX.Element {
     );
   } else {
     return (
-      <div className="page">
+      <div className="page" data-testid='OfferPageContainer'>
         <Helmet>
           <title>6 городов</title>
         </Helmet>
