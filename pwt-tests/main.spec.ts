@@ -44,7 +44,7 @@ test.describe('mainPage', () => {
       const text = await element.textContent();
       const price = parseInt((text)!.substring(1), 10);
       prices.push(price);
-      if (price > maxPrice) {
+      if (price >= maxPrice) {
         maxPrice = price;
       } else {
         isPriceSorted = false;
@@ -63,7 +63,7 @@ test.describe('mainPage', () => {
       const text = await element.textContent();
       const price = parseInt((text)!.substring(1), 10);
       prices.push(price);
-      if (price < minPrice || minPrice === 0) {
+      if (price <= minPrice || minPrice === 0) {
         minPrice = price;
       } else {
         isPriceSorted = false;
