@@ -1,10 +1,10 @@
 import {Helmet} from 'react-helmet-async';
 import { Link, useLocation } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus, NameSpace, cardType } from '../../const';
+import { AppRoute, AuthorizationStatus, NameSpace, TIMEOUT, cardType } from '../../const';
 import ReviewList from '../../components/review-list/review-list';
 import {Map} from '../../components/map/map';
 import OfferList from '../../components/offer-list/offer-list';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { Offer } from '../../types/offer';
 import { fetchOfferAction } from '../../store/api-actions';
 import store from '../../store';
@@ -14,18 +14,22 @@ import {Header} from '../../components/header/header';
 import { TReview } from '../../types/review';
 import { changeFavoriteStatus } from '../../utils';
 import React from 'react';
-import { changeSelectedOffer } from '../../store/action';
+import { changeSelectedOffer, setOfferDataLoadingStatus } from '../../store/action';
 
 
 function OfferPage(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const offer = useAppSelector((state) => state[NameSpace.Data].loadedOffer) as Offer;
+  if (!offer) {
+    dispatch(setOfferDataLoadingStatus(true));
+  }
   const isOfferDataLoading = useAppSelector((state) => state[NameSpace.Data].isOfferDataLoading);
   const location = useLocation().pathname;
   const offerId = location.substring(location.lastIndexOf('/') + 1);
-  const TIMEOUT = 1000;
   useEffect(() => {
     let isMounted = true;
     setTimeout(() => {
-      if (isMounted) {
+      if (isMounted && !offer) {
         store.dispatch(fetchOfferAction(offerId));
       }
     }, TIMEOUT);
@@ -33,8 +37,7 @@ function OfferPage(): JSX.Element {
     return () => {
       isMounted = false;
     };
-  }, [offerId]);
-  const offer = useAppSelector((state) => state[NameSpace.Data].loadedOffer) as Offer;
+  }, [offer, offerId]);
   const [isFavorite, setIsFavorite] = React.useState(false);
   useEffect(() => {
     let isMounted = true;
@@ -43,7 +46,8 @@ function OfferPage(): JSX.Element {
       if (isMounted) {
         if (offer) {
           setIsFavorite(offer.isFavorite);
-          store.dispatch(changeSelectedOffer(offer));
+          dispatch(changeSelectedOffer(offer));
+          dispatch(setOfferDataLoadingStatus(false));
         }
       }
     }, TIMEOUT);
@@ -51,11 +55,11 @@ function OfferPage(): JSX.Element {
     return () => {
       isMounted = false;
     };
-  }, [offer]);
+  }, [dispatch, offer]);
   const offers = useAppSelector((state) => state[NameSpace.Data].nearbyOffers) as Offer[];
   const reviews = useAppSelector((state) => state[NameSpace.Data].comments) as TReview[];
   const authorizationStatus = useAppSelector((state) => state.USER.authorizationStatus);
-  if (isOfferDataLoading || !offer) {
+  if (isOfferDataLoading) {
     return (
       <LoadingScreen />
     );
@@ -70,7 +74,7 @@ function OfferPage(): JSX.Element {
           <section className="offer">
             <div className="offer__gallery-container container">
               <div className="offer__gallery">
-                {offer.images.slice(0, 5).map((image) => (
+                {offer.images.slice(0, 6).map((image) => (
                   <div className="offer__image-wrapper" key={image}>
                     <img className="offer__image" src={image} alt="Photo studio"/>
                   </div>

@@ -11,7 +11,7 @@ type ReviewListProps = {
 function ReviewList ({reviews}: ReviewListProps): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state[NameSpace.User].authorizationStatus);
   const length = reviews.length;
-  const filteredReviews = reviews.slice(length - 9, length).reverse();
+  const filteredReviews = reviews.slice(length - 10, length).reverse();
   return (
     <section className="offer__reviews reviews" data-testid='ReviewListContainer'>
       <h2 className="reviews__title">Reviews · <span className="reviews__amount">{length}</span></h2>

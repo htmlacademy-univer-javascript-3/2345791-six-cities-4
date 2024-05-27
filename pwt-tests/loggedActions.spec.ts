@@ -59,4 +59,23 @@ test.describe('Logged in actions', () => {
     }
   });
 
+  test('Review submit should only work when you are logged in and the review has enough rating and words', async ({page}) => {
+    const initialReviewCount = await page.locator('.reviews__amount').allTextContents();
+    const reviewText = 'This is a review text that has over 50 symbols and yet less than 300.';
+    await page.locator('.place-card__name').first().click();
+    await expect(page).toHaveURL(/.*\/offer\/.*/);
+    const lastReview = page.locator('.reviews__text').first();
+    const reviewForm = page.locator('.reviews__textarea');
+    const ratingButton = page.getByTitle('good');
+    const submitButton = page.locator('.reviews__submit');
+    expect(await submitButton.isEnabled()).toBe(false);
+    await ratingButton.click();
+    expect(await submitButton.isEnabled()).toBe(false);
+    await reviewForm.fill(reviewText);
+    expect(await submitButton.isEnabled()).toBe(true);
+    await submitButton.click();
+    await expect(lastReview).toHaveText(reviewText);
+    await expect(page.locator('.reviews__amount')).not.toHaveText(initialReviewCount);
+  });
+
 });
