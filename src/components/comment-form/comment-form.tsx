@@ -55,7 +55,7 @@ function CommentFormComponent(): JSX.Element {
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={review.reviewText.length < 50 || parseInt(review.rating, 10) === 0} onClick={(evt: FormEvent<HTMLButtonElement>) => {
+        <button className="reviews__submit form__submit button" type="submit" disabled={review.reviewText.length < 50 || parseInt(review.rating, 10) === 0 || review.reviewText.length > 300} onClick={(evt: FormEvent<HTMLButtonElement>) => {
           evt.preventDefault();
           store.dispatch(postComment({id: offerId, comment:review.reviewText, rating:parseInt(review.rating, 10)}));
           setReview({

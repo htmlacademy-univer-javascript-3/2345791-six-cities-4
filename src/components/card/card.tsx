@@ -16,7 +16,12 @@ function CardComponent({offer, type}: CardProps): JSX.Element {
   const dispatch = useAppDispatch();
   const [isFavorite, setIsFavorite] = React.useState(offer.isFavorite);
   return (
-    <article className= {cardTypeMap.get(type)} onMouseEnter={() => dispatch(changeSelectedOffer(offer))} data-testid='card-container'>
+    <article className= {cardTypeMap.get(type)} onMouseEnter={() => {
+      if (type === cardType.Main) {
+        dispatch(changeSelectedOffer(offer));
+      }
+    }} data-testid='card-container'
+    >
       {offer.isPremium ?
         <div className="place-card__mark">
           <span> Premium </span>
@@ -58,7 +63,7 @@ function CardComponent({offer, type}: CardProps): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${offer.rating * 20}%`}} />
+            <span style={{width: `${Math.round(offer.rating) * 20}%`}} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

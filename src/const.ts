@@ -2,6 +2,8 @@ import { City } from './types/city';
 
 export const TIMEOUT_SHOW_ERROR = 2000;
 
+export const TIMEOUT = 500;
+
 export const enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',

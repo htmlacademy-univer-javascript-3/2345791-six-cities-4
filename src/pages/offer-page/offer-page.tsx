@@ -14,6 +14,7 @@ import {Header} from '../../components/header/header';
 import { TReview } from '../../types/review';
 import { changeFavoriteStatus } from '../../utils';
 import React from 'react';
+import { changeSelectedOffer } from '../../store/action';
 
 
 function OfferPage(): JSX.Element {
@@ -23,7 +24,6 @@ function OfferPage(): JSX.Element {
   const TIMEOUT = 1000;
   useEffect(() => {
     let isMounted = true;
-
     setTimeout(() => {
       if (isMounted) {
         store.dispatch(fetchOfferAction(offerId));
@@ -37,9 +37,20 @@ function OfferPage(): JSX.Element {
   const offer = useAppSelector((state) => state[NameSpace.Data].loadedOffer) as Offer;
   const [isFavorite, setIsFavorite] = React.useState(false);
   useEffect(() => {
-    if (offer) {
-      setIsFavorite(offer.isFavorite);
-    }
+    let isMounted = true;
+
+    setTimeout(() => {
+      if (isMounted) {
+        if (offer) {
+          setIsFavorite(offer.isFavorite);
+          store.dispatch(changeSelectedOffer(offer));
+        }
+      }
+    }, TIMEOUT);
+
+    return () => {
+      isMounted = false;
+    };
   }, [offer]);
   const offers = useAppSelector((state) => state[NameSpace.Data].nearbyOffers) as Offer[];
   const reviews = useAppSelector((state) => state[NameSpace.Data].comments) as TReview[];
@@ -59,7 +70,7 @@ function OfferPage(): JSX.Element {
           <section className="offer">
             <div className="offer__gallery-container container">
               <div className="offer__gallery">
-                {offer.images.map((image) => (
+                {offer.images.slice(0, 5).map((image) => (
                   <div className="offer__image-wrapper" key={image}>
                     <img className="offer__image" src={image} alt="Photo studio"/>
                   </div>
@@ -100,7 +111,7 @@ function OfferPage(): JSX.Element {
                 </div>
                 <div className="offer__rating rating">
                   <div className="offer__stars rating__stars">
-                    <span style={{width: `${offer.rating * 20}%`}} />
+                    <span style={{width: `${Math.round(offer.rating) * 20}%`}} />
                     <span className="visually-hidden">Rating</span>
                   </div>
                   <span className="offer__rating-value rating__value">{offer.rating}</span>
@@ -110,10 +121,10 @@ function OfferPage(): JSX.Element {
                     {offer.type}
                   </li>
                   <li className="offer__feature offer__feature--bedrooms">
-                    {offer.bedrooms} Bedrooms
+                    {offer.bedrooms} {(offer.bedrooms > 1) ? 'Bedrooms' : 'Bedroom'}
                   </li>
                   <li className="offer__feature offer__feature--adults">
-              Max {offer.maxAdults} adults
+              Max {offer.maxAdults} {(offer.maxAdults > 1) ? 'adults' : 'adult'}
                   </li>
                 </ul>
                 <div className="offer__price">
@@ -153,13 +164,13 @@ function OfferPage(): JSX.Element {
               </div>
             </div>
             <section className="offer__map map" >
-              <Map points={offers.map((offerItem) => offerItem.location)} isOfferPage/>
+              <Map points={[offer.location].concat(offers.slice(0, 3).map((offerItem) => offerItem.location))}/>
             </section>
           </section>
           <div className="container">
             <section className="near-places places">
               <h2 className="near-places__title">Other places in the neighbourhood</h2>
-              <OfferList offers={offers} type={cardType.Near}/>
+              <OfferList offers={offers.slice(0, 3).map((offerItem) => offerItem)} type={cardType.Near}/>
             </section>
           </div>
         </main>

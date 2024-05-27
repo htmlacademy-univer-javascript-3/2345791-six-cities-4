@@ -45,7 +45,7 @@ function MainPage(): JSX.Element {
               </section>
               <div className="cities__right-section">
                 <section className="cities__map map" >
-                  <Map points={points} isOfferPage={false}/>
+                  <Map points={points}/>
                 </section>
               </div>
             </div>
