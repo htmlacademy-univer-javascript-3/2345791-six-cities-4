@@ -8,7 +8,7 @@ type ReviewProps = {
 function Review({review}: ReviewProps): JSX.Element {
   const date = formatDate(review.date);
   return (
-    <li className="reviews__item">
+    <li className="reviews__item" data-testid='ReviewContainer'>
       <div className="reviews__user user">
         <div className="reviews__avatar-wrapper user__avatar-wrapper">
           <img className="reviews__avatar user__avatar" src={review.user.avatarUrl} width={54} height={54} alt="Reviews avatar" />

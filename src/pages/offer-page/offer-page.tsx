@@ -1,10 +1,10 @@
 import {Helmet} from 'react-helmet-async';
 import { Link, useLocation } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus, NameSpace, cardType } from '../../const';
+import { AppRoute, AuthorizationStatus, NameSpace, TIMEOUT, cardType } from '../../const';
 import ReviewList from '../../components/review-list/review-list';
 import {Map} from '../../components/map/map';
 import OfferList from '../../components/offer-list/offer-list';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { Offer } from '../../types/offer';
 import { fetchOfferAction } from '../../store/api-actions';
 import store from '../../store';
@@ -14,18 +14,22 @@ import {Header} from '../../components/header/header';
 import { TReview } from '../../types/review';
 import { changeFavoriteStatus } from '../../utils';
 import React from 'react';
+import { changeSelectedOffer, setOfferDataLoadingStatus } from '../../store/action';
 
 
 function OfferPage(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const offer = useAppSelector((state) => state[NameSpace.Data].loadedOffer) as Offer;
+  if (!offer) {
+    dispatch(setOfferDataLoadingStatus(true));
+  }
   const isOfferDataLoading = useAppSelector((state) => state[NameSpace.Data].isOfferDataLoading);
   const location = useLocation().pathname;
   const offerId = location.substring(location.lastIndexOf('/') + 1);
-  const TIMEOUT = 1000;
   useEffect(() => {
     let isMounted = true;
-
     setTimeout(() => {
-      if (isMounted) {
+      if (isMounted && !offer) {
         store.dispatch(fetchOfferAction(offerId));
       }
     }, TIMEOUT);
@@ -33,32 +37,35 @@ function OfferPage(): JSX.Element {
     return () => {
       isMounted = false;
     };
-  }, [offerId]);
-  const offer = useAppSelector((state) => state[NameSpace.Data].loadedOffer) as Offer;
+  }, [offer, offerId]);
   const [isFavorite, setIsFavorite] = React.useState(false);
   useEffect(() => {
     let isMounted = true;
 
     setTimeout(() => {
-      if (isMounted && offer) {
-        setIsFavorite(offer.isFavorite);
+      if (isMounted) {
+        if (offer) {
+          setIsFavorite(offer.isFavorite);
+          dispatch(changeSelectedOffer(offer));
+          dispatch(setOfferDataLoadingStatus(false));
+        }
       }
     }, TIMEOUT);
 
     return () => {
       isMounted = false;
     };
-  }, [offer]);
+  }, [dispatch, offer]);
   const offers = useAppSelector((state) => state[NameSpace.Data].nearbyOffers) as Offer[];
   const reviews = useAppSelector((state) => state[NameSpace.Data].comments) as TReview[];
   const authorizationStatus = useAppSelector((state) => state.USER.authorizationStatus);
-  if (isOfferDataLoading || !offer) {
+  if (isOfferDataLoading) {
     return (
       <LoadingScreen />
     );
   } else {
     return (
-      <div className="page">
+      <div className="page" data-testid='OfferPageContainer'>
         <Helmet>
           <title>6 городов</title>
         </Helmet>
@@ -67,7 +74,7 @@ function OfferPage(): JSX.Element {
           <section className="offer">
             <div className="offer__gallery-container container">
               <div className="offer__gallery">
-                {offer.images.map((image) => (
+                {offer.images.slice(0, 6).map((image) => (
                   <div className="offer__image-wrapper" key={image}>
                     <img className="offer__image" src={image} alt="Photo studio"/>
                   </div>
@@ -108,7 +115,7 @@ function OfferPage(): JSX.Element {
                 </div>
                 <div className="offer__rating rating">
                   <div className="offer__stars rating__stars">
-                    <span style={{width: `${offer.rating * 20}%`}} />
+                    <span style={{width: `${Math.round(offer.rating) * 20}%`}} />
                     <span className="visually-hidden">Rating</span>
                   </div>
                   <span className="offer__rating-value rating__value">{offer.rating}</span>
@@ -118,10 +125,10 @@ function OfferPage(): JSX.Element {
                     {offer.type}
                   </li>
                   <li className="offer__feature offer__feature--bedrooms">
-                    {offer.bedrooms} Bedrooms
+                    {offer.bedrooms} {(offer.bedrooms > 1) ? 'Bedrooms' : 'Bedroom'}
                   </li>
                   <li className="offer__feature offer__feature--adults">
-              Max {offer.maxAdults} adults
+              Max {offer.maxAdults} {(offer.maxAdults > 1) ? 'adults' : 'adult'}
                   </li>
                 </ul>
                 <div className="offer__price">
@@ -161,13 +168,13 @@ function OfferPage(): JSX.Element {
               </div>
             </div>
             <section className="offer__map map" >
-              <Map points={offers.map((offerItem) => offerItem.location)} isOfferPage/>
+              <Map points={[offer.location].concat(offers.slice(0, 3).map((offerItem) => offerItem.location))}/>
             </section>
           </section>
           <div className="container">
             <section className="near-places places">
               <h2 className="near-places__title">Other places in the neighbourhood</h2>
-              <OfferList offers={offers} type={cardType.Near}/>
+              <OfferList offers={offers.slice(0, 3).map((offerItem) => offerItem)} type={cardType.Near}/>
             </section>
           </div>
         </main>

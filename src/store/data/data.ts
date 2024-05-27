@@ -3,7 +3,7 @@ import { City } from '../../types/city';
 import { Offer } from '../../types/offer';
 import { NameSpace, SortType, cities } from '../../const';
 import { TReview } from '../../types/review';
-import { changeCity, changeSelectedOffer, changeSortType, loadComments, loadNearbyOffers, setError } from '../action';
+import { changeCity, changeSelectedOffer, changeSortType, loadComments, loadNearbyOffers, setError, setOfferDataLoadingStatus } from '../action';
 import { fetchOffersAction, fetchOfferAction, fetchFavoriteOffers, loginAction, postComment } from '../api-actions';
 
 type Data = {
@@ -21,7 +21,7 @@ type Data = {
   favoriteOffers: Offer[];
   isFavoriteOffersDataLoading: boolean;
 }
-const initialState: Data = {
+export const initialState: Data = {
   city: cities[0],
   offers: [],
   favoriteOffers: [],
@@ -62,7 +62,6 @@ export const data = createSlice({
       })
       .addCase(fetchOfferAction.fulfilled, (state, action) => {
         state.loadedOffer = action.payload;
-        state.isOfferDataLoading = false;
       })
       .addCase(fetchOfferAction.pending, (state) => {
         state.isOfferDataLoading = true;
@@ -96,6 +95,9 @@ export const data = createSlice({
       })
       .addCase(setError, (state, action) => {
         state.error = action.payload;
+      })
+      .addCase(setOfferDataLoadingStatus, (state, action) => {
+        state.isOfferDataLoading = action.payload;
       });
   }
 });

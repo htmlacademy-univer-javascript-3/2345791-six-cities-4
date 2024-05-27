@@ -36,7 +36,7 @@ function LoginPage(): JSX.Element {
     return (<Navigate to={AppRoute.Root}/>);
   }
   return (
-    <div className="page page--gray page--login">
+    <div className="page page--gray page--login" data-testid='LoginPageContainer'>
       <Helmet>
         <title>6 городов. Зайдите в аккаунт</title>
       </Helmet>
