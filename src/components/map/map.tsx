@@ -16,6 +16,9 @@ function MapComponent(props: MapProps): JSX.Element {
   const selectedPoint = useAppSelector((state) => state[NameSpace.Data].selectedOffer?.location);
   const mapRef = React.useRef(null);
   const map = useMap(mapRef, city);
+  const normalIcon = icon({
+    iconUrl: '/img/pin.svg'
+  });
   const activeIcon = icon({
     iconUrl: '/img/pin-active.svg'
   });
@@ -28,7 +31,10 @@ function MapComponent(props: MapProps): JSX.Element {
           points.forEach((point) => {
             const marker = new Marker({
               lat: point.latitude,
-              lng: point.longitude
+              lng: point.longitude,
+            },
+            {
+              icon: normalIcon
             });
             marker.addTo(markerLayer);
             if (point === selectedPoint) {
@@ -46,7 +52,7 @@ function MapComponent(props: MapProps): JSX.Element {
     return () => {
       isMounted = false;
     };
-  }, [map, points, selectedPoint, city, activeIcon]);
+  }, [map, points, selectedPoint, city, activeIcon, normalIcon]);
 
 
   return <div style={{height: '100%'}} ref={mapRef}></div>;
